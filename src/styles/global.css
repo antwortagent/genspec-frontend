@@ -27,11 +27,11 @@
   --chip-rejected:#F43F5E;
 }
 
-/* Dark theme (primary for app surfaces) */
+/* Dark theme (still available for future) */
 :root{
   --dark-bg:#0B0F14;
-  --dark-aurora-1: rgba(124,58,237,0.20); /* violet */
-  --dark-aurora-2: rgba(46,229,255,0.18); /* cyan */
+  --dark-aurora-1: rgba(124,58,237,0.20);
+  --dark-aurora-2: rgba(46,229,255,0.18);
   --dark-panel:#0F141A;
   --dark-panel-subtle:#0c1117;
   --dark-border:rgba(255,255,255,0.08);
@@ -40,37 +40,36 @@
 }
 *{box-sizing:border-box}
 html,body,#root{height:100%}
-/* Default to dark working surface (Linear Minimal + Neo-Aurora accents) */
-body{margin:0;background:var(--dark-bg);color:var(--dark-text);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+/* Default to LIGHT working surface */
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
 
-/* Glass helpers */
-/* Glass helpers (dark-friendly) */
-.glass{background:linear-gradient(to bottom right,rgba(255,255,255,0.08),rgba(255,255,255,0.06));backdrop-filter:blur(var(--blur-md));-webkit-backdrop-filter:blur(var(--blur-md));border:1px solid var(--dark-border);border-radius:var(--radius-lg);box-shadow:0 10px 30px rgba(46,229,255,0.08)}
+/* Glass helpers (light-friendly) */
+.glass{background:linear-gradient(to bottom right,rgba(255,255,255,0.9),rgba(255,255,255,0.8));backdrop-filter:blur(var(--blur-md));-webkit-backdrop-filter:blur(var(--blur-md));border:1px solid var(--glass-border);border-radius:var(--radius-lg);box-shadow:0 10px 30px rgba(2,6,23,0.06)}
 
-/* Aurora gradient background (apply to large containers) */
-.aurora{background:radial-gradient(1200px 600px at 70% 10%, var(--dark-aurora-1), transparent),radial-gradient(800px 400px at 20% 80%, var(--dark-aurora-2), transparent), var(--dark-bg);}
+/* Optional aurora accent (use sparingly in light mode) */
+.aurora{background:radial-gradient(900px 400px at 70% 10%, rgba(124,58,237,0.10), transparent),radial-gradient(600px 300px at 20% 80%, rgba(46,229,255,0.10), transparent), var(--bg);}
 
 /* Basic form/input styles */
 input, button { font: inherit; }
 input[type="text"], input[type="email"], input[type="password"] {
-  padding: 10px 12px; border-radius: 10px; border:1px solid var(--dark-border);
-  background: var(--dark-panel); color: var(--dark-text);
+  padding: 10px 12px; border-radius: 10px; border:1px solid var(--border);
+  background: var(--panel); color: var(--text);
 }
 button.primary{
   background: linear-gradient(135deg,var(--accent-2),var(--accent-1));
   color:#fff; border:none; padding:10px 14px; border-radius:12px; font-weight:600; cursor:pointer;
 }
-button.ghost{ background:transparent; color: var(--dark-text); border:1px solid var(--dark-border); padding:10px 14px; border-radius:12px; cursor:pointer; }
+button.ghost{ background:transparent; color: var(--text); border:1px solid var(--border); padding:10px 14px; border-radius:12px; cursor:pointer; }
 
 /* Status chip utility */
-.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:600;border:1px solid var(--dark-border);color:var(--dark-text)}
-.chip.draft{background:rgba(100,116,139,0.15);color:#CBD5E1}
-.chip.suggested{background:rgba(90,140,255,0.15);color:#BBD2FF}
-.chip.in_review{background:rgba(245,158,11,0.15);color:#FAD9A6}
-.chip.approved{background:rgba(32,201,151,0.15);color:#B7F3E3}
-.chip.rejected{background:rgba(244,63,94,0.15);color:#F9B8C4}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:600;border:1px solid var(--border);color:var(--text)}
+.chip.draft{background:#F1F5F9;color:#475569}
+.chip.suggested{background:#EFF6FF;color:#3B82F6}
+.chip.in_review{background:#FEF3C7;color:#D97706}
+.chip.approved{background:#ECFDF5;color:#059669}
+.chip.rejected{background:#FEE2E2;color:#DC2626}
 
 /* Focus outline for accessibility */
-:focus-visible{outline:2px solid var(--accent-2); outline-offset:2px}
+:focus-visible{outline:2px solid var(--primary-1); outline-offset:2px}
 
 /* Layout modules */

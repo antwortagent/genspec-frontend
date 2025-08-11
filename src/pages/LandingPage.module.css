@@ -1,9 +1,7 @@
 .landingPage {
   min-height: 100vh;
-  background: radial-gradient(1200px 600px at 70% 10%, var(--dark-aurora-1), transparent),
-              radial-gradient(800px 400px at 20% 80%, var(--dark-aurora-2), transparent),
-              var(--dark-bg);
-  color: var(--dark-text);
+  background: #ffffff;
+  color: #1a1a1a;
   font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
@@ -13,10 +11,9 @@
   top: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--dark-border);
+  border-bottom: 1px solid var(--border);
   z-index: 1000;
 }
 
@@ -33,32 +30,29 @@
   margin: 0;
   font-size: 1.75rem;
   font-weight: 800;
-  background: linear-gradient(135deg, var(--accent-2), var(--accent-1));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--primary-1);
 }
 
 .navLinks { display: flex; gap: 2rem; }
-.navLinks a { color: var(--dark-text-muted); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+.navLinks a { color: #6b7280; text-decoration: none; font-weight: 500; transition: color 0.2s; }
 .navLinks a:hover { color: var(--dark-text); }
 
 .navActions { display: flex; gap: 1rem; align-items: center; }
 .loginButton { color: var(--dark-text); text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; transition: opacity 0.2s; opacity: 0.85; }
 .loginButton:hover { opacity: 1; }
 
-.ctaButton { background: linear-gradient(135deg, var(--accent-2), var(--accent-1)); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-weight: 600; transition: all 0.2s; box-shadow: 0 8px 24px rgba(46,229,255,0.22); }
+.ctaButton { background: linear-gradient(135deg, var(--accent-2), var(--accent-1)); color: #fff; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-weight: 600; transition: all 0.2s; box-shadow: 0 8px 24px rgba(46,229,255,0.22); }
 .ctaButton:hover { transform: translateY(-1px); box-shadow: 0 14px 32px rgba(46,229,255,0.28); }
 
 /* Hero Section */
 .hero { padding: 8rem 2rem 4rem; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
 .heroContent { max-width: 600px; }
-.heroTitle { font-size: 3.25rem; font-weight: 900; line-height: 1.1; margin: 0 0 1.25rem; background: linear-gradient(135deg, var(--accent-2) 0%, var(--accent-1) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.heroTitle { font-size: 3.25rem; font-weight: 900; line-height: 1.1; margin: 0 0 1.25rem; background: linear-gradient(135deg, var(--primary-2) 0%, var(--primary-1) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .heroSubtitle { font-size: 1.125rem; color: var(--dark-text-muted); line-height: 1.7; margin: 0 0 2rem; }
 .heroActions { display: flex; gap: 1rem; margin-bottom: 2.5rem; }
-.primaryButton { background: linear-gradient(135deg, var(--accent-2), var(--accent-1)); color: white; text-decoration: none; padding: 1rem 2rem; border-radius: 0.75rem; font-weight: 700; font-size: 1.05rem; transition: all 0.2s; display: inline-block; box-shadow: 0 10px 30px rgba(46,229,255,0.22); }
+.primaryButton { background: linear-gradient(135deg, var(--accent-2), var(--accent-1)); color: #fff; text-decoration: none; padding: 1rem 2rem; border-radius: 0.75rem; font-weight: 700; font-size: 1.05rem; transition: all 0.2s; display: inline-block; box-shadow: 0 10px 30px rgba(46,229,255,0.22); }
 .primaryButton:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(46,229,255,0.28); }
-.secondaryButton { background: transparent; color: var(--dark-text); border: 1px solid var(--dark-border); padding: 1rem 2rem; border-radius: 0.75rem; font-weight: 700; font-size: 1.05rem; cursor: pointer; transition: all 0.2s; }
+.secondaryButton { background: transparent; color: #2563eb; border: 2px solid #e5e7eb; padding: 1rem 2rem; border-radius: 0.75rem; font-weight: 700; font-size: 1.05rem; cursor: pointer; transition: all 0.2s; }
 .secondaryButton:hover { background: rgba(255,255,255,0.06); }
 
 .heroStats { display: flex; gap: 3rem; }
@@ -79,12 +73,12 @@
 .mockupChat { height: 100%; background: linear-gradient(to bottom, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%); border-radius: 0.25rem; }
 
 /* Features Section */
-.features { background: var(--dark-panel-subtle); padding: 5rem 2rem; border-top: 1px solid var(--dark-border); border-bottom: 1px solid var(--dark-border); }
+.features { background: #f9fafb; padding: 5rem 2rem; border-top: 1px solid var(--dark-border); border-bottom: 1px solid var(--dark-border); }
 .sectionContent { max-width: 1200px; margin: 0 auto; }
 .sectionTitle { font-size: 2.25rem; font-weight: 800; text-align: center; margin: 0 0 1rem; }
 .sectionSubtitle { font-size: 1.05rem; color: var(--dark-text-muted); text-align: center; margin: 0 0 3rem; }
 .featureGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
-.featureCard { background: rgba(255,255,255,0.04); padding: 2rem; border-radius: 1rem; border: 1px solid var(--dark-border); transition: all 0.2s; }
+.featureCard { background: #fff; padding: 2rem; border-radius: 1rem; border: 1px solid var(--dark-border); transition: all 0.2s; }
 .featureCard:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.25); }
 .featureIcon { width: 48px; height: 48px; background: linear-gradient(135deg, var(--accent-2), var(--accent-1)); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; color: white; box-shadow: 0 10px 24px rgba(46,229,255,0.25); }
 .featureIcon svg { width: 24px; height: 24px; }
@@ -92,7 +86,7 @@
 .featureCard p { color: var(--dark-text-muted); line-height: 1.6; margin: 0; }
 
 /* How It Works Section */
-.howItWorks { padding: 5rem 2rem; }
+.howItWorks { padding: 5rem 2rem; background: #fff; }
 .steps { display: flex; justify-content: space-between; align-items: flex-start; max-width: 900px; margin: 0 auto; position: relative; }
 .step { flex: 1; text-align: center; padding: 0 2rem; position: relative; }
 .stepNumber { width: 60px; height: 60px; background: linear-gradient(135deg, var(--accent-2), var(--accent-1)); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; margin: 0 auto 1.5rem; box-shadow: 0 12px 24px rgba(46,229,255,0.25); }
@@ -103,7 +97,7 @@
 .steps .stepConnector:last-of-type { right: calc(33.33% - 50px); }
 
 /* CTA Section */
-.cta { background: linear-gradient(135deg, var(--accent-2) 0%, var(--accent-1) 100%); padding: 5rem 2rem; text-align: center; color: white; }
+.cta { background: linear-gradient(135deg, var(--primary-2) 0%, var(--primary-1) 100%); padding: 5rem 2rem; text-align: center; color: #fff; }
 .ctaContent h2 { font-size: 2.25rem; font-weight: 800; margin: 0 0 1rem; }
 .ctaContent p { font-size: 1.125rem; opacity: 0.9; margin: 0 0 2rem; }
 .ctaButtonLarge { background: white; color: #111827; text-decoration: none; padding: 1.25rem 3rem; border-radius: 0.75rem; font-weight: 700; font-size: 1.125rem; display: inline-block; transition: all 0.2s; }
@@ -111,7 +105,7 @@
 .ctaNote { font-size: 0.875rem; opacity: 0.85; margin: 1.5rem 0 0; }
 
 /* Footer */
-.footer { background: var(--dark-panel); color: var(--dark-text-muted); padding: 3rem 2rem 1.5rem; border-top: 1px solid var(--dark-border); }
+.footer { background: #1a1a1a; color: #9ca3af; padding: 3rem 2rem 1.5rem; border-top: 1px solid var(--dark-border); }
 .footerContent { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
 .footerSection h4 { color: var(--dark-text); font-size: 1.25rem; margin: 0 0 0.5rem; }
 .footerSection h5 { color: var(--dark-text); font-size: 0.875rem; font-weight: 700; margin: 0 0 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
