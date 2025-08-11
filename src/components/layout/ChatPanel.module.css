@@ -1,37 +1,11 @@
-.chatPanel {
-  width: 420px; /* match assistant column */
-  height: 100vh;
-  background: #ffffff;
-  border-left: 1px solid #e5e7eb;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden; /* no internal scroll */
-}
+.chatPanel { width: 420px; height: 100vh; background: transparent; border-left: none; display: flex; flex-direction: column; overflow: hidden; }
 
 /* Header */
-.header {
-  padding: 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #f9fafb;
-}
+.header { padding: 1.5rem; border-bottom: 1px solid var(--dark-border); display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); backdrop-filter: blur(6px); }
 
-.headerInfo h3 {
-  margin: 0 0 0.5rem;
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #111827;
-}
+.headerInfo h3 { margin: 0 0 0.5rem; font-size: 1.125rem; font-weight: 600; color: var(--dark-text); }
 
-.status {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  color: #6b7280;
-}
+.status { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--dark-text-muted); }
 
 .statusIndicator {
   width: 8px;
@@ -60,10 +34,7 @@
   transition: all 0.2s;
 }
 
-.menuButton:hover {
-  background: #e5e7eb;
-  color: #374151;
-}
+.menuButton:hover { background: rgba(255,255,255,0.06); color: #e5e7eb; }
 
 .menuButton svg {
   width: 20px;
@@ -140,21 +111,9 @@
   align-items: flex-end;
 }
 
-.messageText {
-  background: #f3f4f6;
-  border-radius: 1rem;
-  padding: 0.75rem 1rem;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  color: #374151;
-  word-wrap: break-word;
-}
+.messageText { background: rgba(255,255,255,0.06); border-radius: 1rem; padding: 0.75rem 1rem; font-size: 0.875rem; line-height: 1.5; color: var(--dark-text); word-wrap: break-word; }
 
-.message.user .messageText {
-  background: #2563eb;
-  color: white;
-  border-bottom-right-radius: 0.25rem;
-}
+.message.user .messageText { background: linear-gradient(135deg, var(--accent-2), var(--accent-1)); color: white; border-bottom-right-radius: 0.25rem; box-shadow: 0 10px 24px rgba(46,229,255,0.25); }
 
 .message.assistant .messageText {
   border-bottom-left-radius: 0.25rem;
@@ -168,15 +127,7 @@
 }
 
 /* Typing Indicator */
-.typing {
-  background: #f3f4f6;
-  border-radius: 1rem;
-  border-bottom-left-radius: 0.25rem;
-  padding: 1rem;
-  display: flex;
-  gap: 0.25rem;
-  align-items: center;
-}
+.typing { background: rgba(255,255,255,0.06); border-radius: 1rem; border-bottom-left-radius: 0.25rem; padding: 1rem; display: flex; gap: 0.25rem; align-items: center; }
 
 .typing span {
   width: 6px;
@@ -206,11 +157,7 @@
 }
 
 /* Input Container */
-.inputContainer {
-  border-top: 1px solid #e5e7eb;
-  background: white;
-  padding: 1rem 1.5rem;
-}
+.inputContainer { border-top: 1px solid var(--dark-border); background: rgba(255,255,255,0.03); padding: 1rem 1.5rem; backdrop-filter: blur(6px); }
 
 .quickActions {
   display: flex;
