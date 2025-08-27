@@ -55,11 +55,11 @@ input[type="text"], input[type="email"], input[type="password"] {
   padding: 10px 12px; border-radius: 10px; border:1px solid var(--border);
   background: var(--panel); color: var(--text);
 }
-button.primary{
+button.primary, a.primary, .primary{
   background: linear-gradient(135deg,var(--accent-2),var(--accent-1));
   color:#fff; border:none; padding:10px 14px; border-radius:12px; font-weight:600; cursor:pointer;
 }
-button.ghost{ background:transparent; color: var(--text); border:1px solid var(--border); padding:10px 14px; border-radius:12px; cursor:pointer; }
+button.ghost, a.ghost, .ghost{ background:transparent; color: var(--text); border:1px solid var(--border); padding:10px 14px; border-radius:12px; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:6px }
 
 /* Status chip utility */
 .chip{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:600;border:1px solid var(--border);color:var(--text)}
@@ -68,6 +68,9 @@ button.ghost{ background:transparent; color: var(--text); border:1px solid var(-
 .chip.in_review{background:#FEF3C7;color:#D97706}
 .chip.approved{background:#ECFDF5;color:#059669}
 .chip.rejected{background:#FEE2E2;color:#DC2626}
+.chip.active{background:#DBEAFE;color:#1D4ED8}
+.chip.completed{background:#E0E7FF;color:#4338CA}
+.chip.archived{background:#F1F5F9;color:#475569}
 
 /* Focus outline for accessibility */
 :focus-visible{outline:2px solid var(--primary-1); outline-offset:2px}

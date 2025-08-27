@@ -134,3 +134,74 @@ export const analyticsApi = {
     return api<any>(`/analytics/user-activity?days=${days}`);
   },
 };
+
+// Voice API
+export type ProviderName = 'openai_realtime' | 'gemini_realtime' | 'gemini_ws';
+export type IceServer = { urls: string | string[]; username?: string; credential?: string };
+
+export interface VoiceSessionRequest {
+  project_id: string;
+}
+
+export interface VoiceInstructions {
+  system_prompt: string;
+  tools: any[]; // tool JSON schemas verbatim
+  provider_parameters: Record<string, any>;
+}
+
+export interface VoiceSessionResponse {
+  session_id: string;
+  provider: ProviderName;
+  provider_url: string;
+  token: string | null;
+  // Optional auth header customization (e.g., X-Goog-Api-Key for Gemini)
+  token_header?: string | null; // default: Authorization
+  token_scheme?: string | null; // default: Bearer (used only with Authorization)
+  session_flow?: 'webrtc_https' | 'websocket_mesh' | string | null;
+  audio?: { sampleRate: number; encoding: 'pcm16' | 'opus' | 'webm_opus' | 'mp3' } | null;
+  persona?: Record<string, any> | null;
+  iceServers: IceServer[] | null;
+  instructions: VoiceInstructions;
+}
+
+export interface TranscriptSegment {
+  speaker: 'user' | 'assistant' | string;
+  text: string;
+  start_ms?: number;
+  end_ms?: number;
+  correlation_id?: string;
+}
+
+export const voiceApi = {
+  // Initialize realtime session and get provider connection details
+  openaiSession: async (data: VoiceSessionRequest): Promise<VoiceSessionResponse> => {
+    return api<VoiceSessionResponse>('/api/voice/openai/session', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+
+  // Generic session creator that supports different modes (e.g., gemini_ws)
+  createSession: async (data: VoiceSessionRequest & { mode?: string }): Promise<VoiceSessionResponse> => {
+    return api<VoiceSessionResponse>('/api/voice/session', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+
+  // Submit transcript segments captured client-side (optional)
+  submitTranscripts: async (session_id: string, segments: TranscriptSegment[]): Promise<{ ok: true }> => {
+    return api<{ ok: true }>('/api/voice/transcripts', {
+      method: 'POST',
+      body: JSON.stringify({ session_id, segments }),
+    });
+  },
+
+  // End a realtime session
+  endSession: async (session_id: string): Promise<{ ok: true }> => {
+    return api<{ ok: true }>('/api/voice/session/end', {
+      method: 'POST',
+      body: JSON.stringify({ session_id }),
+    });
+  },
+};

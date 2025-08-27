@@ -1,4 +1,4 @@
-.chatPanel { width: 420px; height: 100vh; background: #fff; border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
+.chatPanel { width: 100%; height: 100%; background: #fff; display: flex; flex-direction: column; overflow: hidden; }
 
 /* Header */
 .header { padding: 1.25rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.95); backdrop-filter: blur(6px); }
@@ -42,12 +42,7 @@
 }
 
 /* Messages */
-.messagesContainer {
-  flex: 1;
-  overflow: hidden; /* avoid internal scrollbar to keep single viewport */
-  padding: 1rem 0;
-  background: #fff;
-}
+.messagesContainer { flex: 1; overflow: auto; padding: 1rem 0; background: #fff; }
 
 .messages {
   display: flex;

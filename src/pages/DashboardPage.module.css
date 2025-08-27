@@ -1,10 +1,10 @@
 /* Full viewport single-page layout (light) */
 .dashboard { height: 100vh; background: var(--bg); font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; display: flex; }
 
-.container { flex: 1; display: grid; grid-template-columns: 1fr 420px; gap: 0; min-height: 100vh; background: var(--bg); }
+.container { flex: 1; display: grid; grid-template-columns: 1fr; gap: 0; min-height: 100vh; background: var(--bg); }
 
 .main { display: flex; flex-direction: column; min-width: 0; padding: 1.5rem 2rem; overflow: auto; }
-.assistantColumn { border-left: 1px solid var(--border); background: #ffffff; display: flex; backdrop-filter: blur(6px); }
+.assistantColumn { display: none; }
 
 /* Header */
 .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; gap: 2rem; }

@@ -17,6 +17,9 @@ export const TopBar: React.FC = () => {
             <Link to="/dashboard" style={{color:'var(--text)',textDecoration:'none',fontWeight:'500'}}>
               Dashboard
             </Link>
+            <Link to="/projects" style={{color:'var(--text-muted)',textDecoration:'none',fontWeight:'500'}}>
+              Projects
+            </Link>
             <Link to="/notifications" style={{color:'var(--text-muted)',textDecoration:'none',fontWeight:'500'}}>
               Notifications
             </Link>

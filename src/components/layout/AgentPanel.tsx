@@ -1,13 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '@/styles/AgentPanel.module.css';
+import { ChatPanel } from './ChatPanel';
+import { VoicePanel } from './VoicePanel';
 
 export const AgentPanel: React.FC = () => {
+  const [mode, setMode] = useState<'chat' | 'voice'>(() => {
+    const saved = typeof window !== 'undefined' ? window.localStorage.getItem('agent_mode') : null;
+    return (saved === 'chat' || saved === 'voice') ? saved : 'voice';
+  });
+
+  useEffect(() => {
+    try { window.localStorage.setItem('agent_mode', mode); } catch {}
+  }, [mode]);
+
   return (
     <aside className={styles.panel}>
-      <div className={styles.header}>Mentor Agent</div>
-      <div className={styles.body}>
-        <div className={styles.chatBubble}>Hi! I’ll help you through Stage 1.</div>
-        <div className={styles.status}>Voice: idle</div>
+      <div className={styles.toggleRow}>
+        <div className={styles.title}>Assistant</div>
+        <div className={styles.modeToggle} role="tablist" aria-label="Assistant mode">
+          <button
+            role="tab"
+            aria-selected={mode === 'chat'}
+            className={`${styles.modeBtn} ${mode === 'chat' ? styles.modeBtnActive : ''}`}
+            onClick={() => setMode('chat')}
+          >
+            Chat
+          </button>
+          <button
+            role="tab"
+            aria-selected={mode === 'voice'}
+            className={`${styles.modeBtn} ${mode === 'voice' ? styles.modeBtnActive : ''}`}
+            onClick={() => setMode('voice')}
+          >
+            Voice
+          </button>
+        </div>
+      </div>
+
+      <div className={styles.host}>
+        {mode === 'chat' ? <ChatPanel /> : <VoicePanel />}
       </div>
     </aside>
   );

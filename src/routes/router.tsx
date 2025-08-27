@@ -4,6 +4,15 @@ import { LandingPage } from '@/pages/LandingPage';
 import { LoginPage } from '@/pages/auth/LoginPage';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { DashboardPage } from '@/pages/DashboardPage';
+import { NotificationsPage } from '@/pages/NotificationsPage';
+import { ProjectsPage } from '../pages/ProjectsPage';
+import { ProjectLayout } from '@/pages/project/ProjectLayout';
+import { VoiceIntakePage } from '@/pages/project/VoiceIntakePage';
+import { TemplatePage } from '@/pages/project/TemplatePage';
+import { WishlistPage } from '@/pages/project/WishlistPage';
+import { ReviewPage } from '@/pages/project/ReviewPage';
+import { CreateProjectPage } from '../pages/project/CreateProjectPage';
+import { VoiceModelInspector } from '@/components/dev/VoiceModelInspector';
 import { useAuth } from '@/store/auth';
 
 const RequireAuth: React.FC<{children: React.ReactNode}> = ({ children }) => {
@@ -32,6 +41,17 @@ export const router = createBrowserRouter([
     element: <PublicRoute><LoginPage /></PublicRoute>,
   },
   {
+    path: '/notifications',
+    element: (
+      <RequireAuth>
+        <DashboardLayout />
+      </RequireAuth>
+    ),
+    children: [
+      { index: true, element: <NotificationsPage /> }
+    ]
+  },
+  {
     path: '/dashboard',
     element: (
       <RequireAuth>
@@ -44,5 +64,48 @@ export const router = createBrowserRouter([
         element: <DashboardPage />,
       },
     ],
+  },
+  {
+    path: '/projects',
+    element: (
+      <RequireAuth>
+        <DashboardLayout />
+      </RequireAuth>
+    ),
+    children: [
+      { index: true, element: <ProjectsPage /> },
+      { path: 'new', element: <CreateProjectPage /> },
+    ]
+  },
+  {
+    path: '/dev/voice-inspector/:projectId?',
+    element: (
+      <RequireAuth>
+        <DashboardLayout />
+      </RequireAuth>
+    ),
+    children: [
+      { index: true, element: <VoiceModelInspector /> }
+    ]
+  },
+  {
+    path: '/projects/:projectId',
+    element: (
+      <RequireAuth>
+        <DashboardLayout />
+      </RequireAuth>
+    ),
+    children: [
+      {
+        element: <ProjectLayout />,
+        children: [
+          { index: true, element: <Navigate to="voice" replace /> },
+          { path: 'voice', element: <VoiceIntakePage /> },
+          { path: 'template', element: <TemplatePage /> },
+          { path: 'wishlist', element: <WishlistPage /> },
+          { path: 'review', element: <ReviewPage /> },
+        ]
+      }
+    ]
   },
 ]);

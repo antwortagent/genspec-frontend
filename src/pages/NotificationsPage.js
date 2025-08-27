@@ -1,0 +1,16 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { useMemo, useState } from 'react';
+import { GlassCard } from '@/components/ui/GlassCard';
+const demo = [
+    { id: 'n1', projectId: 'p1', projectName: 'E‑commerce', type: 'template_ready', title: 'Template ready, seed wishlist?', createdAt: new Date().toISOString() },
+    { id: 'n2', projectId: 'p2', projectName: 'Mobile App', type: 'wishlist_pending_review', title: 'Review items pending', createdAt: new Date(Date.now() - 3600000).toISOString() },
+    { id: 'n3', projectId: 'p1', projectName: 'E‑commerce', type: 'voice_complete', title: 'Voice processing complete', createdAt: new Date(Date.now() - 86400000).toISOString() },
+];
+export const NotificationsPage = () => {
+    const [filter, setFilter] = useState('all');
+    const [type, setType] = useState('all');
+    const items = useMemo(() => {
+        return demo.filter(n => (filter === 'all' || !n.read) && (type === 'all' || n.type === type));
+    }, [filter, type]);
+    return (_jsxs("div", { style: { padding: 24, maxWidth: 960, margin: '0 auto' }, children: [_jsxs("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }, children: [_jsx("h1", { style: { margin: 0 }, children: "Inbox" }), _jsxs("div", { style: { display: 'flex', gap: 8 }, children: [_jsxs("select", { value: filter, onChange: (e) => setFilter(e.target.value), children: [_jsx("option", { value: "all", children: "All" }), _jsx("option", { value: "unread", children: "Unread" })] }), _jsxs("select", { value: type, onChange: (e) => setType(e.target.value), children: [_jsx("option", { value: "all", children: "All types" }), _jsx("option", { value: "template_ready", children: "Template ready" }), _jsx("option", { value: "wishlist_pending_review", children: "Wishlist pending review" }), _jsx("option", { value: "voice_complete", children: "Voice complete" })] })] })] }), _jsxs("div", { style: { display: 'grid', gap: 12 }, children: [items.map(n => (_jsx(GlassCard, { children: _jsxs("div", { style: { padding: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }, children: [_jsxs("div", { children: [_jsxs("div", { style: { display: 'flex', alignItems: 'center', gap: 8 }, children: [_jsx("span", { className: `chip ${n.type.replace(/-/g, '_')}`, children: n.projectName }), _jsx("strong", { children: n.title })] }), _jsx("div", { style: { color: 'var(--text-muted)', fontSize: 12 }, children: new Date(n.createdAt).toLocaleString() })] }), _jsxs("div", { style: { display: 'flex', gap: 8 }, children: [n.type === 'template_ready' && (_jsx("a", { className: "primary", href: `/projects/${n.projectId}/template`, style: { textDecoration: 'none' }, children: "Open" })), n.type === 'wishlist_pending_review' && (_jsx("a", { className: "primary", href: `/projects/${n.projectId}/wishlist`, style: { textDecoration: 'none' }, children: "Open" })), n.type === 'voice_complete' && (_jsx("a", { className: "primary", href: `/projects/${n.projectId}/template`, style: { textDecoration: 'none' }, children: "Open" }))] })] }) }, n.id))), items.length === 0 && (_jsx(GlassCard, { children: _jsx("div", { style: { padding: 24, textAlign: 'center', color: 'var(--text-muted)' }, children: "You\u2019re all caught up!" }) }))] })] }));
+};

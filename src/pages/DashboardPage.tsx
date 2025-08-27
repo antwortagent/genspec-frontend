@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/store/auth';
 import { analyticsApi, type DashboardAnalytics, type RecentProject } from '@/api/services';
-import { ChatPanel } from '@/components/layout/ChatPanel';
-import { VoicePanel } from '@/components/layout/VoicePanel';
 import styles from './DashboardPage.module.css';
 
 export const DashboardPage: React.FC = () => {
@@ -11,7 +9,6 @@ export const DashboardPage: React.FC = () => {
   const [recentProjects, setRecentProjects] = useState<RecentProject[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [assistantMode, setAssistantMode] = useState<'chat' | 'voice'>('voice');
 
   const { logout } = useAuth();
 
@@ -78,15 +75,12 @@ export const DashboardPage: React.FC = () => {
               Welcome back, {user?.email?.split('@')[0] || 'User'}!
             </h1>
             <p className={styles.subtitle}>
-              Ready to create amazing specifications with AI? Let's get started.
+              Create clear, audit-ready specifications with AI assistance.
             </p>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <div className={styles.modeToggle}>
-              <button className={`${styles.modeBtn} ${assistantMode === 'chat' ? styles.modeBtnActive : ''}`} onClick={() => setAssistantMode('chat')}>Chat</button>
-              <button className={`${styles.modeBtn} ${assistantMode === 'voice' ? styles.modeBtnActive : ''}`} onClick={() => setAssistantMode('voice')}>Voice</button>
-            </div>
-            <button className={styles.newProjectButton}>
+            {/* Assistant mode toggle moved to global AgentPanel */}
+            <button className={styles.newProjectButton} onClick={() => window.location.assign('/projects/new')}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <line x1="12" y1="5" x2="12" y2="19"/>
                 <line x1="5" y1="12" x2="19" y2="12"/>
@@ -212,7 +206,7 @@ export const DashboardPage: React.FC = () => {
               <div className={styles.section}>
                 <div className={styles.sectionHeader}>
                   <h2>Recent Projects</h2>
-                  <button className={styles.viewAllButton}>View All</button>
+                  <button className={styles.viewAllButton} onClick={() => window.location.assign('/projects')}>View All</button>
                 </div>
                 <div className={styles.projectsList}>
                   {recentProjects.length > 0 ? (
@@ -240,7 +234,7 @@ export const DashboardPage: React.FC = () => {
                             </span>
                           </div>
                         </div>
-                        <button className={styles.projectAction}>
+                        <button className={styles.projectAction} onClick={() => window.location.assign(`/projects/${project.id}`)}>
                           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M9 18l6-6-6-6"/>
                           </svg>
@@ -249,7 +243,11 @@ export const DashboardPage: React.FC = () => {
                     ))
                   ) : (
                     <div className={styles.emptyState}>
-                      <p>No recent projects found. Create your first project to get started!</p>
+                      <p>No recent projects yet.</p>
+                      <div style={{ display:'flex', gap:12, marginTop:8 }}>
+                        <button className={styles.newProjectButton} onClick={() => window.location.assign('/projects/new')}>Create Project</button>
+                        <button className={styles.viewAllButton} onClick={() => window.location.assign('/projects')}>View All</button>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -258,9 +256,7 @@ export const DashboardPage: React.FC = () => {
           </>
         )}
         </div>
-        <aside className={styles.assistantColumn}>
-          {assistantMode === 'chat' ? <ChatPanel /> : <VoicePanel />}
-        </aside>
+  {/* Assistant panel is global now (right column in AppShell) */}
       </div>
     </div>
   );

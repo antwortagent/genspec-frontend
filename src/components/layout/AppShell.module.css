@@ -1,0 +1,24 @@
+.appShell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-subtle);
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  gap: 0;
+  overflow: hidden;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  background: var(--bg-subtle);
+}
+
+@media (max-width: 1024px) {
+  .content { position: relative; }
+}
