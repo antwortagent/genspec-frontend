@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './EnhancedDashboard.module.css';
+
 import { GlassCard } from '../components/ui/GlassCard';
+import styles from './EnhancedDashboard.module.css';
 
 // Enhanced icons for better visualization
 const ProjectIcon = () => (
