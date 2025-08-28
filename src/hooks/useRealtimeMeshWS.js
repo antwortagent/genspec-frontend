@@ -11,11 +11,12 @@ export function useRealtimeMeshWS() {
         setState('connecting');
         setError(null);
         setAssistantText('');
-        if (!session.provider_url.startsWith('wss:')) {
-            setError('Invalid provider_url for mesh WS. Expected wss://');
+        if (!session.provider_url.startsWith('ws://') && !session.provider_url.startsWith('wss://')) {
+            setError('Invalid provider_url for mesh WS. Expected ws:// or wss://');
             setState('error');
             return { audioEl: null };
         }
+        // provider_url already contains sessionId and token as query params from mesh
         const ws = new WebSocket(session.provider_url);
         ws.binaryType = 'arraybuffer';
         wsRef.current = ws;

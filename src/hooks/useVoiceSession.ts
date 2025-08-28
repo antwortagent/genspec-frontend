@@ -21,7 +21,8 @@ export function useVoiceSession() {
   const start = useCallback(async (project_id: string) => {
     setLoading(true); setError(null);
     try {
-      const res = await voiceApi.openaiSession({ project_id });
+  // Choose backend API dynamically via voiceApi.startSession (api param or env)
+  const res = await voiceApi.startSession({ project_id } as any);
       const fe: FEVoiceConnect = {
   provider: (res as any).provider as ProviderName,
         provider_url: res.provider_url,

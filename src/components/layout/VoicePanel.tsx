@@ -2,25 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useVoiceSession } from '@/hooks/useVoiceSession';
 import { voiceApi } from '@/api/services';
-import { useRea           <div className={styles.status}>
-             <div className={`${styles.statusDot} ${styles[status]}`}></div>
-             <span>
-               {status === 'idle' && 'Idle'}
-               {status === 'listening' && 'Listening'}
-               {status === 'processing' && 'Processing'}
-             </span>
-            {import.meta.env?.DEV && session && (
-              <>
-                <span className={`${styles.provider} ${isGemini ? styles.gemini : styles.openai}`}>
-                  {isGemini ? 'Gemini' : 'OpenAI'}
-                </span>
-                {useMeshWS && (
-                  <span className={styles.provider} style={{backgroundColor: '#f0f9ff', color: '#0369a1', border: '1px solid #bae6fd', marginLeft: '4px'}}>
-                    WS
-                  </span>
-                )}
-              </>
-            )}} from '@/hooks/useRealtimeOpenAI';
+import { useRealtimeOpenAI } from '@/hooks/useRealtimeOpenAI';
 import { useRealtimeGemini } from '@/hooks/useRealtimeGemini';
 import { useRealtimeMeshWS } from '@/hooks/useRealtimeMeshWS';
 import styles from './VoicePanel.module.css';

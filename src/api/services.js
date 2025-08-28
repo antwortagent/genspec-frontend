@@ -85,4 +85,30 @@ export const voiceApi = {
             body: JSON.stringify({ session_id }),
         });
     },
+    // Convenience starter that chooses endpoint based on an `api` parameter
+    // Priority: explicit arg > URL ?api= > VITE_VOICE_API > fallback to createSession
+    startSession: async (data) => {
+        let apiParam = data.api;
+        if (!apiParam && typeof window !== 'undefined') {
+            try {
+                apiParam = new URLSearchParams(window.location.search).get('api') || undefined;
+            }
+            catch { }
+        }
+        apiParam = apiParam || import.meta.env?.VITE_VOICE_API;
+        const norm = (apiParam || '').toString().toLowerCase();
+        // Allow explicit mode override too
+        const mode = data.mode || import.meta.env?.VITE_VOICE_MODE;
+        if (norm === 'openai' || norm === 'openai_realtime' || norm === 'openai-rt') {
+            return voiceApi.openaiSession({ project_id: data.project_id });
+        }
+        if (norm === 'mesh' || norm === 'gemini_ws' || norm === 'gemini-ws') {
+            return voiceApi.createSession({ project_id: data.project_id, mode: 'gemini_ws' });
+        }
+        if (norm === 'gemini' || norm === 'gemini_realtime' || norm === 'gemini-rt') {
+            return voiceApi.createSession({ project_id: data.project_id, mode: 'gemini_realtime' });
+        }
+        // Fallback: use generic createSession, carry through any explicit mode/env mode
+        return voiceApi.createSession({ project_id: data.project_id, ...(mode ? { mode } : {}) });
+    },
 };

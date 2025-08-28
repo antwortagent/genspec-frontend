@@ -27,7 +27,7 @@ export const VoicePanel = () => {
     const geminiRT = useRealtimeGemini();
     const meshWSRT = useRealtimeMeshWS();
     const isGemini = !!(session && (session.instructions?.provider_parameters?.provider === 'gemini' || session.provider?.includes('gemini')));
-    const useMeshWS = !!(session && ((session.provider === 'gemini_ws') || session.provider_url?.startsWith('wss:')));
+    const useMeshWS = !!(session && ((session.provider === 'gemini_ws') || session.provider_url?.startsWith('ws://') || session.provider_url?.startsWith('wss:')));
     const chosen = useMeshWS ? meshWSRT : (isGemini ? geminiRT : openaiRT);
     const { state: rtState, error: rtError, assistantText, connect, disconnect } = chosen;
     const remoteAudioRef = useRef(null);
