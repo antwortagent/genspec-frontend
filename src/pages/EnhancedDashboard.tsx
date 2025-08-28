@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './EnhancedDashboard.module.css';
-import { ProactiveInsightCard } from '../components/ui/ProactiveInsightCard';
 import { GlassCard } from '../components/ui/GlassCard';
 
 // Enhanced icons for better visualization
@@ -39,162 +38,24 @@ const TeamIcon = () => (
   </svg>
 );
 
-// Sample template data
-const recommendedTemplates = [
-  {
-    id: 1,
-    name: 'API Requirements',
-    description: 'Complete template for defining API requirements with user stories and acceptance criteria',
-    popularity: 95,
-    category: 'Technical'
-  },
-  {
-    id: 2,
-    name: 'Regulatory Compliance',
-    description: 'Ensure your product meets industry regulatory standards and compliance requirements',
-    popularity: 87,
-    category: 'Compliance'
-  },
-  {
-    id: 3,
-    name: 'Product Vision Document',
-    description: 'Strategic document outlining the vision, goals, and roadmap for product development',
-    popularity: 92,
-    category: 'Strategy'
-  }
-];
-
-// Sample project data
-interface RecentProject {
-  id: number;
-  name: string;
-  status: 'intake' | 'draft' | 'review' | 'completed';
-  lastUpdated: string;
-  progress: number;
-  owner: string;
-  collaborators: number;
-  dueDate?: string;
-}
-
-const recentProjects: RecentProject[] = [
-  { 
-    id: 1, 
-    name: 'Jewellery Website', 
-    status: 'intake', 
-    lastUpdated: '1 hours ago', 
-    progress: 25, 
-    owner: 'You',
-    collaborators: 2,
-    dueDate: '2025-09-10'
-  },
-  { 
-    id: 2, 
-    name: 'E-Commerce Platform for medicine', 
-    status: 'intake', 
-    lastUpdated: '16 days ago', 
-    progress: 35, 
-    owner: 'Sarah Chen',
-    collaborators: 4,
-    dueDate: '2025-09-15'
-  },
-  { 
-    id: 3, 
-    name: 'Acme Chatbot', 
-    status: 'draft', 
-    lastUpdated: '16 days ago', 
-    progress: 60, 
-    owner: 'You',
-    collaborators: 1
-  }
-];
-
-// Stats data
+// Basic stats data - to be replaced with real API data
 const statsData = {
-  activeProjects: 3,
-  generatedSpecs: 12,
-  timeSaved: '24.5h',
-  teamMembers: 5
+  activeProjects: 0,
+  generatedSpecs: 0,
+  timeSaved: '0h',
+  teamMembers: 0
 };
 
 const EnhancedDashboardPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'projects' | 'templates' | 'analytics'>('projects');
-
-  // Get status color based on project status
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'intake': return styles.statusIntake;
-      case 'draft': return styles.statusDraft;
-      case 'review': return styles.statusReview;
-      case 'completed': return styles.statusCompleted;
-      default: return '';
-    }
-  };
-
-  // Get status label
-  const getStatusLabel = (status: string) => {
-    switch (status) {
-      case 'intake': return 'Intake';
-      case 'draft': return 'Draft';
-      case 'review': return 'In Review';
-      case 'completed': return 'Completed';
-      default: return status;
-    }
-  };
-
   return (
     <div className={styles.dashboardContainer}>
+      {/* Header */}
       <div className={styles.dashboardHeader}>
         <div>
           <h1 className={styles.welcomeHeading}>Welcome to your workspace</h1>
           <p className={styles.welcomeSubheading}>
             Create clear, audit-ready specifications with proactive AI assistance.
           </p>
-        </div>
-        <div className={styles.headerActions}>
-          <button className={styles.newProjectButton}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 5V19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            New Project
-          </button>
-          <button className={styles.actionButton}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 3V7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M18.364 5.63604L15.5355 8.46447" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M21 12H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M18.364 18.364L15.5355 15.5355" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M12 21V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M5.63604 18.364L8.46447 15.5355" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M3 12H7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M5.63604 5.63604L8.46447 8.46447" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* Proactive Insights Section */}
-      <div className={styles.insightsSection}>
-        <h2 className={styles.sectionTitle}>Proactive Insights</h2>
-        <div className={styles.insightsContainer}>
-          <ProactiveInsightCard 
-            severity="warning"
-            title="Requirements Gap Detected"
-            description="User authentication requirements in 'E-Commerce Platform' are missing critical security specifications."
-            actionText="Review & Fix"
-          />
-          <ProactiveInsightCard 
-            severity="info"
-            title="Compliance Check"
-            description="New GDPR template available that matches your industry requirements."
-            actionText="Apply Template"
-          />
-          <ProactiveInsightCard 
-            severity="success"
-            title="Audit Ready"
-            description="'Acme Chatbot' has complete requirements and is ready for compliance review."
-            actionText="Start Review"
-          />
         </div>
       </div>
 
@@ -209,6 +70,7 @@ const EnhancedDashboardPage: React.FC = () => {
             <span className={styles.statLabel}>Active Projects</span>
           </div>
         </div>
+        
         <div className={styles.statCard}>
           <div className={styles.statIconContainer}>
             <SpecsIcon />
@@ -218,6 +80,7 @@ const EnhancedDashboardPage: React.FC = () => {
             <span className={styles.statLabel}>Generated Specs</span>
           </div>
         </div>
+        
         <div className={styles.statCard}>
           <div className={styles.statIconContainer}>
             <TimeIcon />
@@ -227,6 +90,7 @@ const EnhancedDashboardPage: React.FC = () => {
             <span className={styles.statLabel}>Time Saved</span>
           </div>
         </div>
+        
         <div className={styles.statCard}>
           <div className={styles.statIconContainer}>
             <TeamIcon />
@@ -238,119 +102,20 @@ const EnhancedDashboardPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Content Tabs */}
-      <div className={styles.contentTabs}>
-        <div className={styles.tabsHeader}>
-          <button 
-            className={`${styles.tabButton} ${activeTab === 'projects' ? styles.activeTab : ''}`}
-            onClick={() => setActiveTab('projects')}
-          >
-            Recent Projects
-          </button>
-          <button 
-            className={`${styles.tabButton} ${activeTab === 'templates' ? styles.activeTab : ''}`}
-            onClick={() => setActiveTab('templates')}
-          >
-            Recommended Templates
-          </button>
-          <button 
-            className={`${styles.tabButton} ${activeTab === 'analytics' ? styles.activeTab : ''}`}
-            onClick={() => setActiveTab('analytics')}
-          >
-            Analytics
-          </button>
-        </div>
-
-        <div className={styles.tabContent}>
-          {activeTab === 'projects' && (
-            <div className={styles.projectsList}>
-              <table className={styles.projectsTable}>
-                <thead>
-                  <tr>
-                    <th>Project</th>
-                    <th>Owner</th>
-                    <th>Progress</th>
-                    <th>Status</th>
-                    <th>Due Date</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recentProjects.map((project) => (
-                    <tr key={project.id} className={styles.projectRow}>
-                      <td className={styles.projectName}>
-                        <div className={styles.projectNameContainer}>
-                          <span className={styles.projectIcon}>
-                            <ProjectIcon />
-                          </span>
-                          <div>
-                            <span className={styles.projectTitle}>{project.name}</span>
-                            <span className={styles.projectMeta}>
-                              Updated {project.lastUpdated} • {project.collaborators} collaborators
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td>{project.owner}</td>
-                      <td>
-                        <div className={styles.progressBarContainer}>
-                          <div 
-                            className={styles.progressBar} 
-                            style={{ width: `${project.progress}%` }}
-                          ></div>
-                        </div>
-                        <div className={styles.progressText}>{project.progress}%</div>
-                      </td>
-                      <td>
-                        <span className={`${styles.statusBadge} ${getStatusColor(project.status)}`}>
-                          {getStatusLabel(project.status)}
-                        </span>
-                      </td>
-                      <td>{project.dueDate ? new Date(project.dueDate).toLocaleDateString() : '—'}</td>
-                      <td>
-                        <button className={styles.actionLink}>Continue</button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+      {/* Empty State - to be replaced with actual content */}
+      <div className={styles.emptyState}>
+        <GlassCard className={styles.emptyStateCard}>
+          <div className={styles.emptyStateContent}>
+            <div className={styles.emptyStateIcon}>
+              <ProjectIcon />
             </div>
-          )}
-
-          {activeTab === 'templates' && (
-            <div className={styles.templatesGrid}>
-              {recommendedTemplates.map(template => (
-                <GlassCard key={template.id} className={styles.templateCard}>
-                  <div className={styles.templateHeader}>
-                    <span className={styles.templateCategory}>{template.category}</span>
-                    <span className={styles.templatePopularity}>{template.popularity}% match</span>
-                  </div>
-                  <h3 className={styles.templateTitle}>{template.name}</h3>
-                  <p className={styles.templateDescription}>{template.description}</p>
-                  <div className={styles.templateActions}>
-                    <button className={styles.primaryButton}>Use Template</button>
-                    <button className={styles.secondaryButton}>Preview</button>
-                  </div>
-                </GlassCard>
-              ))}
-            </div>
-          )}
-
-          {activeTab === 'analytics' && (
-            <div className={styles.analyticsContainer}>
-              <div className={styles.analyticsPlaceholder}>
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18 20V10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M12 20V4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M6 20V14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <h3>Analytics Dashboard</h3>
-                <p>Track project progress, team performance, and requirement quality metrics</p>
-                <button className={styles.primaryButton}>Setup Analytics</button>
-              </div>
-            </div>
-          )}
-        </div>
+            <h3>No projects yet</h3>
+            <p>Get started by creating your first project</p>
+            <Link to="/projects/new">
+              <button className={styles.primaryButton}>Create Project</button>
+            </Link>
+          </div>
+        </GlassCard>
       </div>
     </div>
   );

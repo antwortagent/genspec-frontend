@@ -5,7 +5,7 @@ import ModernLandingPage from '@/pages/modern/ModernLandingPage';
 import { LoginPage } from '@/pages/auth/LoginPage';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { DashboardPage } from '@/pages/DashboardPage';
-import EnhancedDashboardPage from '@/pages/EnhancedDashboard';
+import EnhancedDashboardPage from '../pages/EnhancedDashboard';
 import { NotificationsPage } from '@/pages/NotificationsPage';
 import { ProjectsPage } from '../pages/ProjectsPage';
 import { ProjectLayout } from '@/pages/project/ProjectLayout';
