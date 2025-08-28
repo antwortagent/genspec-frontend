@@ -16,7 +16,6 @@ export const AgentPanel: React.FC = () => {
   return (
     <aside className={styles.panel}>
       <div className={styles.toggleRow}>
-        <div className={styles.title}>Assistant</div>
         <div className={styles.modeToggle} role="tablist" aria-label="Assistant mode">
           <button
             role="tab"

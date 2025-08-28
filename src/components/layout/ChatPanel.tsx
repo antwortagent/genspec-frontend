@@ -71,10 +71,8 @@ export const ChatPanel: React.FC = () => {
     <div className={styles.chatPanel}>
       <div className={styles.header}>
         <div className={styles.headerInfo}>
-          <h3>AI Specification Assistant</h3>
           <div className={styles.status}>
             <div className={styles.statusIndicator}></div>
-            <span>Online</span>
           </div>
         </div>
         <button className={styles.menuButton}>

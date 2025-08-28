@@ -218,23 +218,18 @@ export const VoicePanel: React.FC = () => {
 
   return (
     <div className={styles.voicePanel}>
-      <div className={styles.header}>
-        <div className={styles.headerInfo}>
-          <h3>AI Voice Assistant</h3>
-          <div className={styles.status}>
-            <div className={`${styles.statusDot} ${styles[status]}`}></div>
-            <span>
-              {status === 'idle' && 'Idle'}
-              {status === 'listening' && 'Listening'}
-              {status === 'processing' && 'Processing'}
-            </span>
-            {import.meta.env?.DEV && session && (
-              <span className={`${styles.provider} ${isGemini ? styles.gemini : styles.openai}`}>
-                {isGemini ? 'Gemini' : 'OpenAI'}
-              </span>
-            )}
-          </div>
-        </div>
+      <div className={styles.status}>
+        <div className={`${styles.statusDot} ${styles[status]}`}></div>
+        <span>
+          {status === 'idle' && 'Idle'}
+          {status === 'listening' && 'Listening'}
+          {status === 'processing' && 'Processing'}
+        </span>
+        {import.meta.env?.DEV && session && (
+          <span className={`${styles.provider} ${isGemini ? styles.gemini : styles.openai}`}>
+            {isGemini ? 'Gemini' : 'OpenAI'}
+          </span>
+        )}
       </div>
 
       <div className={styles.body}>
@@ -256,7 +251,7 @@ export const VoicePanel: React.FC = () => {
                   <stop offset="100%" stopColor="#7C3AED"/>
                 </linearGradient>
                 <filter id="glow">
-                  <feGaussianBlur stdDeviation="3.5" result="coloredBlur"/>
+                  <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
                   <feMerge>
                     <feMergeNode in="coloredBlur"/>
                     <feMergeNode in="SourceGraphic"/>
@@ -267,7 +262,7 @@ export const VoicePanel: React.FC = () => {
                 className={`${status === 'listening' ? styles.waveAnim : ''}`}
                 d="M 40 200 C 120 120, 280 280, 360 200"
                 stroke="url(#grad)"
-                strokeWidth="3"
+                strokeWidth="4"
                 fill="none"
                 filter="url(#glow)"
               />
@@ -275,15 +270,15 @@ export const VoicePanel: React.FC = () => {
                 className={`${status === 'listening' ? styles.waveAnimSlow : ''}`}
                 d="M 40 220 C 150 160, 250 240, 360 220"
                 stroke="url(#grad)"
-                strokeWidth="2"
+                strokeWidth="3"
                 fill="none"
-                opacity="0.7"
+                opacity="0.8"
                 filter="url(#glow)"
               />
             </svg>
           </div>
-          <div className={styles.prompt}>{transcript || "What's the price of hoverboard ...."}</div>
-          <div className={styles.listeningText}>
+          <div className={styles.prompt}>{transcript || <span className={styles.promptExample}>"Tell me about your project requirements..."</span>}</div>
+          <div className={`${styles.listeningText} ${status === 'idle' ? styles.tapPulse : ''}`}>
             {status === 'listening' ? 'Listening...' : status === 'processing' ? 'Processing...' : 'Tap to speak'}
           </div>
           {sessionLoading && <div className={styles.timer}>Connecting...</div>}

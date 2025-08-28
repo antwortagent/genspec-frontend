@@ -1,12 +1,14 @@
 .panel {
-  width: 350px;
+  width: 380px;
   background: var(--panel);
   border-left: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  transition: width 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   position: relative;
+  backdrop-filter: blur(10px);
+  box-shadow: -2px 0 20px rgba(0, 0, 0, 0.05);
 }
 
 .panel.collapsed {
@@ -17,32 +19,35 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 1.25rem;
   border-bottom: 1px solid var(--border);
-  background: var(--panel);
-  backdrop-filter: blur(var(--blur-md));
-  -webkit-backdrop-filter: blur(var(--blur-md));
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .title {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-weight: 600;
   white-space: nowrap;
+  color: var(--text);
 }
 
 .statusIndicator {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  background: rgba(124, 58, 237, 0.1);
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(168, 85, 247, 0.05));
   transition: all 0.3s ease;
   position: relative;
+  border: 2px solid rgba(124, 58, 237, 0.1);
 }
 
 .statusIndicator svg {
@@ -53,7 +58,8 @@
 
 .statusIndicator.thinking {
   animation: pulse 1.5s infinite;
-  background: rgba(217, 119, 6, 0.1);
+  background: linear-gradient(135deg, rgba(217, 119, 6, 0.15), rgba(245, 158, 11, 0.05));
+  border-color: rgba(217, 119, 6, 0.2);
 }
 
 .statusIndicator.thinking svg {
@@ -61,7 +67,8 @@
 }
 
 .statusIndicator.speaking {
-  background: rgba(46, 229, 255, 0.1);
+  background: linear-gradient(135deg, rgba(46, 229, 255, 0.15), rgba(14, 165, 233, 0.05));
+  border-color: rgba(46, 229, 255, 0.2);
 }
 
 .statusIndicator.speaking svg {
@@ -103,8 +110,10 @@
   display: flex;
   align-items: center;
   background: rgba(124, 58, 237, 0.08);
-  border-radius: 20px;
-  padding: 2px;
+  border-radius: 24px;
+  padding: 3px;
+  border: 1px solid rgba(124, 58, 237, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .panel.collapsed .modeToggle {
@@ -114,18 +123,33 @@
 .modeBtn {
   background: none;
   border: none;
-  padding: 6px 12px;
-  border-radius: 18px;
-  font-size: 0.75rem;
-  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+}
+
+.modeBtn:hover {
+  color: var(--text);
+  background: rgba(124, 58, 237, 0.05);
 }
 
 .modeBtnActive {
-  background: var(--accent-1);
+  background: linear-gradient(135deg, var(--accent-1), #9333ea);
   color: white;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+  transform: translateY(-1px);
+}
+
+.modeBtnActive:hover {
+  background: linear-gradient(135deg, var(--accent-1), #9333ea);
+  color: white;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
 }
 
 .toggleButton {

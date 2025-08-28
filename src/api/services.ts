@@ -116,6 +116,12 @@ export interface RecentProject {
   status: 'draft' | 'active' | 'completed' | 'archived';
   updated_at: string;
   progress_percentage?: number;
+  requirements_count?: number;
+  team_members?: Array<{
+    id: string;
+    name: string;
+    email: string;
+  }>;
 }
 
 export const analyticsApi = {

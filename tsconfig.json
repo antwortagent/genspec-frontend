@@ -9,6 +9,7 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
+    "noEmit": true,
     "baseUrl": ".",
     "paths": {
       "@/components/*": ["src/components/*"],
@@ -17,8 +18,8 @@
       "@/api/*": ["src/api/*"],
       "@/store/*": ["src/store/*"],
       "@/styles/*": ["src/styles/*"],
-  "@/types/*": ["src/types/*"],
-  "@/hooks/*": ["src/hooks/*"]
+      "@/types/*": ["src/types/*"],
+      "@/hooks/*": ["src/hooks/*"]
     }
   },
   "include": ["src", "vite-env.d.ts"],

@@ -6,7 +6,7 @@ import styles from './ModernLandingPage.module.css';
 const HeroIllustration = () => (
   <div className={styles.heroImageContainer}>
     <div className={styles.heroImage}>
-      <img src="https://via.placeholder.com/800x600" alt="GenSpec AI Platform Dashboard" />
+      <img src="/dashboard-screenshot.png" alt="GenSpec AI Platform Dashboard" />
       <div className={styles.heroImageOverlay}></div>
     </div>
     <div className={styles.heroOverlayCard}>
@@ -113,7 +113,7 @@ const ModernLandingPage: React.FC = () => {
         </div>
         <div className={styles.heroImageContainer}>
           <div className={styles.heroImage}>
-            <img src="https://via.placeholder.com/800x600" alt="GenSpec Platform Dashboard" />
+            <img src="/dashboard-screenshot.png" alt="GenSpec Platform Dashboard" />
           </div>
           <div className={styles.heroOverlayCard}>
             <div className={styles.overlayCardHeader}>
@@ -131,6 +131,21 @@ const ModernLandingPage: React.FC = () => {
             </div>
             <div className={styles.overlayCardFooter}>
               <button>Apply Template</button>
+            </div>
+          </div>
+          <div className={styles.heroOverlayCard2}>
+            <div className={styles.overlayCardHeader}>
+              <div className={`${styles.cardIconContainer} ${styles.cardIconSuccess}`}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+              </div>
+              <span>Automated Check</span>
+            </div>
+            <div className={styles.overlayCardContent}>
+              <h3>GDPR Compliant</h3>
+              <p>User data handling meets all GDPR requirements. Last verified today.</p>
             </div>
           </div>
         </div>

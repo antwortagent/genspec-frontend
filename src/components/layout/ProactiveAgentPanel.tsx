@@ -106,7 +106,6 @@ export const ProactiveAgentPanel: React.FC = () => {
               </svg>
             )}
           </div>
-          <span>AI Assistant</span>
         </div>
         <div className={styles.controls}>
           <div className={styles.modeToggle} role="tablist" aria-label="Assistant mode">
@@ -148,23 +147,6 @@ export const ProactiveAgentPanel: React.FC = () => {
       </div>
 
       <div className={styles.content}>
-        {/* Proactive suggestions */}
-        <div className={styles.suggestionsContainer}>
-          <h3 className={styles.suggestionsTitle}>I can help you with:</h3>
-          <div className={styles.suggestionsList}>
-            {suggestions.map(suggestion => (
-              <button 
-                key={suggestion.id}
-                className={styles.suggestionItem}
-                onClick={() => handleSuggestionClick(suggestion)}
-              >
-                {suggestion.icon}
-                <span>{suggestion.text}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
         {/* Regular chat/voice interface */}
         <div className={styles.interface}>
           {mode === 'chat' ? <ChatPanel /> : <VoicePanel />}
