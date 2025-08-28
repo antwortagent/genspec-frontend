@@ -1,8 +1,26 @@
 import React from 'react';
+import styles from './GlassCard.module.css';
 
-export const GlassCard: React.FC<React.PropsWithChildren<{className?:string}>> = ({children,className}) => {
+interface GlassCardProps {
+  className?: string;
+  onClick?: () => void;
+  elevated?: boolean;
+  noPadding?: boolean;
+  children: React.ReactNode;
+}
+
+export const GlassCard: React.FC<GlassCardProps> = ({
+  children,
+  className,
+  onClick,
+  elevated = false,
+  noPadding = false
+}) => {
   return (
-  <div className={`glass ${className ?? ''}`} style={{padding:16}}>
+    <div 
+      className={`${styles.card} ${elevated ? styles.elevated : ''} ${noPadding ? styles.noPadding : ''} ${className ?? ''}`}
+      onClick={onClick}
+    >
       {children}
     </div>
   );

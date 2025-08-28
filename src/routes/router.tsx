@@ -1,9 +1,11 @@
 import React from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { LandingPage } from '@/pages/LandingPage';
+import { ModernLandingPage } from '@/pages/ModernLandingPage';
 import { LoginPage } from '@/pages/auth/LoginPage';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { DashboardPage } from '@/pages/DashboardPage';
+import { EnhancedDashboardPage } from '@/pages/EnhancedDashboardPage';
 import { NotificationsPage } from '@/pages/NotificationsPage';
 import { ProjectsPage } from '../pages/ProjectsPage';
 import { ProjectLayout } from '@/pages/project/ProjectLayout';
@@ -34,6 +36,10 @@ const PublicRoute: React.FC<{children: React.ReactNode}> = ({ children }) => {
 export const router = createBrowserRouter([
   {
     path: '/',
+    element: <PublicRoute><ModernLandingPage /></PublicRoute>,
+  },
+  {
+    path: '/landing-classic',
     element: <PublicRoute><LandingPage /></PublicRoute>,
   },
   {
@@ -61,6 +67,10 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <EnhancedDashboardPage />,
+      },
+      {
+        path: 'classic',
         element: <DashboardPage />,
       },
     ],
