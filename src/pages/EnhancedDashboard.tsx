@@ -39,6 +39,31 @@ const TeamIcon = () => (
   </svg>
 );
 
+const SparklesIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.937A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .962 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.582a.5.5 0 0 1 0 .962L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.962 0Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+const TrendingUpIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <polyline points="22,7 13.5,15.5 8.5,10.5 2,17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <polyline points="16,7 22,7 22,13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+const PlusIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 5v14m-7-7h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+const ArrowRightIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5 12h14m-7-7 7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
 // Basic stats data - to be replaced with real API data
 const statsData = {
   activeProjects: 0,
@@ -47,77 +72,184 @@ const statsData = {
   teamMembers: 0
 };
 
+// Mock data for better visualization
+const quickActions = [
+  {
+    title: "Create New Project",
+    description: "Start building with AI-powered specifications",
+    icon: <PlusIcon />,
+    href: "/projects/new",
+    primary: true
+  },
+  {
+    title: "Explore Templates",
+    description: "Use pre-built industry templates",
+    icon: <SpecsIcon />,
+    href: "/templates",
+    primary: false
+  }
+];
+
+const recentActivity = [
+  {
+    type: "project_created",
+    title: "Welcome to GenSpec!",
+    description: "Ready to create your first specification",
+    time: "Just now",
+    icon: <SparklesIcon />
+  }
+];
+
 const EnhancedDashboardPage: React.FC = () => {
   return (
     <div className={styles.dashboardContainer}>
-      {/* Header */}
-      <div className={styles.dashboardHeader}>
-        <div>
-          <h1 className={styles.welcomeHeading}>Welcome to your workspace</h1>
-          <p className={styles.welcomeSubheading}>
-            Create clear, audit-ready specifications with proactive AI assistance.
-          </p>
+      {/* Animated Header */}
+      <div className={styles.header}>
+        <div className={styles.headerContent}>
+          <div className={styles.welcomeSection}>
+            <h1 className={styles.welcomeHeading}>
+              Welcome to your workspace
+              <span className={styles.sparkleIcon}>
+                <SparklesIcon />
+              </span>
+            </h1>
+            <p className={styles.welcomeSubheading}>
+              Create clear, audit-ready specifications with proactive AI assistance.
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Stats Section */}
-      <div className={styles.statsSection}>
-        <div className={styles.statCard}>
+      {/* Stats Grid with Enhanced Visuals */}
+      <div className={styles.statsGrid}>
+        <GlassCard className={styles.statCard}>
           <div className={styles.statIconContainer}>
             <ProjectIcon />
+            <div className={styles.statIconGlow}></div>
           </div>
           <div className={styles.statContent}>
             <span className={styles.statValue}>{statsData.activeProjects}</span>
             <span className={styles.statLabel}>Active Projects</span>
+            <div className={styles.statTrend}>
+              <TrendingUpIcon />
+              <span>Ready to start</span>
+            </div>
           </div>
-        </div>
+        </GlassCard>
         
-        <div className={styles.statCard}>
+        <GlassCard className={styles.statCard}>
           <div className={styles.statIconContainer}>
             <SpecsIcon />
+            <div className={styles.statIconGlow}></div>
           </div>
           <div className={styles.statContent}>
             <span className={styles.statValue}>{statsData.generatedSpecs}</span>
             <span className={styles.statLabel}>Generated Specs</span>
+            <div className={styles.statTrend}>
+              <TrendingUpIcon />
+              <span>Get started</span>
+            </div>
           </div>
-        </div>
+        </GlassCard>
         
-        <div className={styles.statCard}>
+        <GlassCard className={styles.statCard}>
           <div className={styles.statIconContainer}>
             <TimeIcon />
+            <div className={styles.statIconGlow}></div>
           </div>
           <div className={styles.statContent}>
             <span className={styles.statValue}>{statsData.timeSaved}</span>
             <span className={styles.statLabel}>Time Saved</span>
+            <div className={styles.statTrend}>
+              <TrendingUpIcon />
+              <span>Potential</span>
+            </div>
           </div>
-        </div>
+        </GlassCard>
         
-        <div className={styles.statCard}>
+        <GlassCard className={styles.statCard}>
           <div className={styles.statIconContainer}>
             <TeamIcon />
+            <div className={styles.statIconGlow}></div>
           </div>
           <div className={styles.statContent}>
             <span className={styles.statValue}>{statsData.teamMembers}</span>
             <span className={styles.statLabel}>Team Members</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Empty State - to be replaced with actual content */}
-      <div className={styles.emptyState}>
-        <GlassCard className={styles.emptyStateCard}>
-          <div className={styles.emptyStateContent}>
-            <div className={styles.emptyStateIcon}>
-              <ProjectIcon />
+            <div className={styles.statTrend}>
+              <TrendingUpIcon />
+              <span>Invite team</span>
             </div>
-            <h3>No projects yet</h3>
-            <p>Get started by creating your first project</p>
-            <Link to="/projects/new">
-              <button className={styles.primaryButton}>Create Project</button>
-            </Link>
           </div>
         </GlassCard>
       </div>
+
+      {/* Main Content Grid */}
+      <div className={styles.contentGrid}>
+        {/* Quick Actions */}
+        <GlassCard className={styles.quickActionsCard}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>Quick Actions</h2>
+          </div>
+          <div className={styles.quickActionsGrid}>
+            {quickActions.map((action, index) => (
+              <Link 
+                key={index}
+                to={action.href} 
+                className={`${styles.actionButton} ${action.primary ? styles.primaryAction : styles.secondaryAction}`}
+              >
+                <div className={styles.actionIcon}>
+                  {action.icon}
+                </div>
+                <div className={styles.actionContent}>
+                  <h3>{action.title}</h3>
+                  <p>{action.description}</p>
+                </div>
+                <div className={styles.actionArrow}>
+                  <ArrowRightIcon />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </GlassCard>
+
+        {/* Recent Activity */}
+        <GlassCard className={styles.activityCard}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>Recent Activity</h2>
+          </div>
+          <div className={styles.activityList}>
+            {recentActivity.map((activity, index) => (
+              <div key={index} className={styles.activityItem}>
+                <div className={styles.activityIcon}>
+                  {activity.icon}
+                </div>
+                <div className={styles.activityContent}>
+                  <h3>{activity.title}</h3>
+                  <p>{activity.description}</p>
+                  <span className={styles.activityTime}>{activity.time}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </GlassCard>
+      </div>
+
+      {/* Getting Started Section */}
+      <GlassCard className={styles.gettingStartedCard}>
+        <div className={styles.gettingStartedContent}>
+          <div className={styles.gettingStartedIcon}>
+            <ProjectIcon />
+          </div>
+          <div className={styles.gettingStartedText}>
+            <h3>Ready to build something amazing?</h3>
+            <p>Create your first project and experience the power of AI-driven specification generation.</p>
+          </div>
+          <Link to="/projects/new" className={styles.primaryButton}>
+            <PlusIcon />
+            Create Your First Project
+          </Link>
+        </div>
+      </GlassCard>
     </div>
   );
 };
