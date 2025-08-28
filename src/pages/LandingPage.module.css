@@ -87,12 +87,12 @@
   width: 12px; 
   height: 12px; 
   border-radius: 50%; 
-  background: #64748b; 
+  background: var(--text-tertiary); 
 }
 
-.mockupHeader span:first-child { background: #ef4444; }
-.mockupHeader span:nth-child(2) { background: #f59e0b; }
-.mockupHeader span:nth-child(3) { background: #10b981; }
+.mockupHeader span:first-child { background: var(--danger); }
+.mockupHeader span:nth-child(2) { background: var(--warning); }
+.mockupHeader span:nth-child(3) { background: var(--success); }
 
 .mockupContent { 
   padding: 1.5rem; 

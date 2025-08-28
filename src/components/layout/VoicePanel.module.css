@@ -30,33 +30,33 @@
 }
 
 .provider.openai {
-  background: linear-gradient(135deg, #e6f7ff, #bae6fd);
-  color: #0369a1;
-  border: 1px solid #7dd3fc;
+  background: linear-gradient(135deg, var(--accent-light), var(--primary-light));
+  color: var(--primary-1);
+  border: 1px solid var(--primary-2);
 }
 
 .provider.gemini {
-  background: linear-gradient(135deg, #efe9ff, #ddd6fe);
-  color: #5b21b6;
-  border: 1px solid #c4b5fd;
+  background: linear-gradient(135deg, var(--primary-light), var(--accent-light));
+  color: var(--accent-1);
+  border: 1px solid var(--accent-2);
 }
 
 .statusDot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #9ca3af;
+  background: var(--text-tertiary);
   box-shadow: 0 0 4px rgba(156, 163, 175, 0.4);
 }
 
 .statusDot.listening {
-  background: #10b981;
+  background: var(--success);
   box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
   animation: pulse 2s infinite;
 }
 
 .statusDot.processing {
-  background: #f59e0b;
+  background: var(--warning);
   box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
   animation: pulse 1.2s infinite;
 }
@@ -88,10 +88,10 @@
   align-items: center;
   justify-content: center;
   gap: 16px;
-  background: linear-gradient(135deg, #0B1220 0%, #1a1f36 50%, #0B1220 100%);
+  background: linear-gradient(135deg, var(--bg-subtle) 0%, var(--panel) 50%, var(--bg-subtle) 100%);
   border-radius: 20px;
   padding: 32px 24px;
-  color: #E6EAF2;
+  color: var(--text-primary);
   min-height: 380px;
   overflow: hidden;
   border: 1px solid rgba(46, 229, 255, 0.1);
@@ -193,7 +193,7 @@
 .waveAnimSlow{animation:floatWave 2.4s ease-in-out infinite}
 @keyframes floatWave{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 .prompt {
-  color: #E2E8F0;
+  color: var(--text-secondary);
   font-size: 16px;
   margin-top: 16px;
   text-align: center;
@@ -205,11 +205,11 @@
 .promptExample {
   opacity: 0.7;
   font-style: italic;
-  color: #94A3B8;
+  color: var(--text-tertiary);
 }
 
 .listeningText {
-  color: #A3C4FF;
+  color: var(--accent-2);
   font-size: 18px;
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -257,7 +257,7 @@
   border-radius: 9999px;
   border: 2px solid rgba(255, 255, 255, 0.4);
   background: linear-gradient(135deg, var(--accent-2), var(--accent-1));
-  color: #fff;
+  color: var(--text-on-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -274,7 +274,7 @@
   border-radius: inherit;
   padding: 2px;
   background: linear-gradient(135deg, var(--accent-2), var(--accent-1));
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(var(--text-on-primary) 0 0) content-box, linear-gradient(var(--text-on-primary) 0 0);
   mask-composite: exclude;
 }
 
@@ -289,7 +289,7 @@
 }
 
 .fabMic.active {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
+  background: linear-gradient(135deg, var(--danger), var(--danger-dark));
   box-shadow: 0 12px 32px rgba(239, 68, 68, 0.5);
   animation: recordingPulse 1s ease-in-out infinite;
 }
@@ -301,7 +301,7 @@
 
 .timer {
   font-size: 0.875rem;
-  color: #CBD5E1;
+  color: var(--text-secondary);
   margin-top: 8px;
   font-weight: 500;
   letter-spacing: 0.05em;
@@ -309,11 +309,11 @@
 
 .micError {
   margin-top: 8px;
-  color: #FCA5A5;
+  color: var(--danger);
   font-size: 13px;
   text-align: center;
   padding: 8px 16px;
-  background: rgba(239, 68, 68, 0.1);
+  background: var(--danger-light);
   border-radius: 8px;
   border: 1px solid rgba(239, 68, 68, 0.2);
 }
@@ -431,7 +431,7 @@
 }
 
 .placeholder {
-  color: #9ca3af;
+  color: var(--text-tertiary);
   font-style: italic;
   text-align: center;
   padding: 2rem;

@@ -413,7 +413,7 @@
 
 .cardIconSuccess {
   background: rgba(16, 185, 129, 0.1);
-  color: #10b981; /* Green color for success */
+  color: var(--success); /* Green color for success */
 }
 
 .overlayCardContent h3 {

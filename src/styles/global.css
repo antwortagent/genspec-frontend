@@ -63,6 +63,8 @@
   --glass-highlight:rgba(255,255,255,0.7);
   --glass-shadow: 0 8px 32px rgba(0,0,0,0.05);
   --glass-border-active: rgba(59, 130, 246, 0.2);
+  --glass-light: rgba(255,255,255,0.6);
+  --glass-subtle: rgba(255,255,255,0.4);
   
   /* Radius system - More options for varied components */
   --radius-xs:6px;
@@ -87,14 +89,14 @@
   --shadow-accent-hover:0 20px 50px rgba(59,130,246,0.35);
 
   /* Status chip colors - Refined for better contrast */
-  --chip-draft:#64748B;
-  --chip-suggested:#3B82F6;
-  --chip-in-review:#F59E0B;
-  --chip-approved:#10B981;
-  --chip-rejected:#EF4444;
-  --chip-active:#3B82F6;
-  --chip-completed:#8B5CF6;
-  --chip-archived:#64748B;
+  --chip-draft:var(--text-secondary);
+  --chip-suggested:var(--primary-1);
+  --chip-in-review:var(--warning);
+  --chip-approved:var(--success);
+  --chip-rejected:var(--danger);
+  --chip-active:var(--primary-1);
+  --chip-completed:var(--accent-1);
+  --chip-archived:var(--text-secondary);
   
   /* Layout variables */
   --section-padding: 80px;

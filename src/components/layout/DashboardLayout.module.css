@@ -2,7 +2,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #f9fafb;
+  background: var(--bg-subtle);
 }
 
 .content {
@@ -14,7 +14,7 @@
 .main {
   flex: 1;
   overflow-y: auto;
-  background: #f9fafb;
+  background: var(--bg-subtle);
 }
 
 /* Responsive */
