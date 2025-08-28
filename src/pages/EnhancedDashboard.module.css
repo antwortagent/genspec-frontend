@@ -41,7 +41,7 @@
   font-size: 2.25rem;
   font-weight: 800;
   margin: 0 0 0.75rem 0;
-  background: linear-gradient(135deg, var(--dark-text) 0%, var(--accent-1) 100%);
+  background: linear-gradient(135deg, var(--primary-1) 0%, var(--primary-2) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -53,7 +53,7 @@
 
 .sparkleIcon {
   animation: sparkle 2s ease-in-out infinite;
-  color: var(--accent-1);
+  color: var(--primary-1);
 }
 
 @keyframes sparkle {
@@ -69,7 +69,7 @@
 
 .welcomeSubheading {
   font-size: 1.125rem;
-  color: var(--dark-text-muted);
+  color: var(--text-secondary);
   margin: 0;
   line-height: 1.6;
   animation: fadeInUp 0.6s ease-out 0.2s both;
@@ -89,7 +89,7 @@
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
-  border: 1px solid var(--dark-border);
+  border: 1px solid var(--border);
   animation: fadeInUp 0.6s ease-out var(--delay, 0s) both;
   display: flex;
   flex-direction: column;
@@ -103,8 +103,8 @@
 
 .statCard:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(124, 58, 237, 0.15);
-  border-color: var(--accent-1);
+  box-shadow: var(--shadow-primary);
+  border-color: var(--primary-1);
 }
 
 .statCard::before {
@@ -130,8 +130,8 @@
   width: 64px;
   height: 64px;
   border-radius: 16px;
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(46, 229, 255, 0.1));
-  color: var(--accent-1);
+  background: var(--primary-light);
+  color: var(--primary-1);
   margin-bottom: 1.5rem;
   position: relative;
   transition: all 0.3s ease;
@@ -153,7 +153,7 @@
 .statCard:hover .statIconContainer {
   transform: scale(1.1);
   color: white;
-  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  background: linear-gradient(135deg, var(--primary-1), var(--primary-2));
 }
 
 .statCard:hover .statIconGlow {
@@ -181,7 +181,7 @@
 .statValue {
   font-size: 2.5rem;
   font-weight: 800;
-  background: linear-gradient(135deg, var(--dark-text), var(--accent-1));
+  background: linear-gradient(135deg, var(--primary-1), var(--primary-2));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -191,7 +191,7 @@
 .statLabel {
   font-size: 1rem;
   font-weight: 600;
-  color: var(--dark-text);
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
@@ -200,7 +200,7 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.875rem;
-  color: var(--dark-text-muted);
+  color: var(--text-secondary);
   opacity: 0;
   transform: translateY(10px);
   transition: all 0.3s ease;
@@ -212,7 +212,7 @@
 }
 
 .statTrend svg {
-  color: var(--accent-1);
+  color: var(--primary-1);
 }
 
 /* Content Grid */
@@ -236,7 +236,7 @@
 .sectionTitle {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--dark-text);
+  color: var(--text-primary);
   margin: 0;
   display: flex;
   align-items: center;
@@ -264,25 +264,25 @@
 .primaryAction {
   background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
   color: white;
-  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+  box-shadow: var(--shadow-accent);
 }
 
 .primaryAction:hover {
   transform: translateY(-4px);
-  box-shadow: 0 15px 40px rgba(124, 58, 237, 0.4);
+  box-shadow: var(--shadow-accent-hover);
 }
 
 .secondaryAction {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--dark-border);
-  color: var(--dark-text);
+  background: var(--glass-fill);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
 }
 
 .secondaryAction:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: var(--accent-1);
+  background: var(--glass-fill-hover);
+  border-color: var(--primary-1);
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(124, 58, 237, 0.15);
+  box-shadow: var(--shadow-primary);
 }
 
 .actionIcon {
@@ -292,12 +292,12 @@
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--glass-highlight);
   transition: all 0.3s ease;
 }
 
 .primaryAction .actionIcon {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--glass-highlight);
 }
 
 .actionContent {
@@ -323,7 +323,7 @@
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--glass-highlight);
   transition: all 0.3s ease;
 }
 
@@ -348,14 +348,14 @@
   gap: 1rem;
   padding: 1rem;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--dark-border);
+  background: var(--glass-fill);
+  border: 1px solid var(--border);
   transition: all 0.3s ease;
 }
 
 .activityItem:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: var(--accent-1);
+  background: var(--glass-fill-hover);
+  border-color: var(--primary-1);
 }
 
 .activityIcon {
@@ -365,7 +365,7 @@
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  background: linear-gradient(135deg, var(--primary-1), var(--primary-2));
   color: white;
   flex-shrink: 0;
 }
@@ -377,27 +377,27 @@
 .activityContent h3 {
   font-size: 1rem;
   font-weight: 600;
-  color: var(--dark-text);
+  color: var(--text-primary);
   margin: 0 0 0.25rem 0;
 }
 
 .activityContent p {
   font-size: 0.875rem;
-  color: var(--dark-text-muted);
+  color: var(--text-secondary);
   margin: 0 0 0.5rem 0;
 }
 
 .activityTime {
   font-size: 0.75rem;
-  color: var(--dark-text-muted);
+  color: var(--text-tertiary);
   opacity: 0.7;
 }
 
 /* Getting Started Card */
 .gettingStartedCard {
   padding: 3rem;
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.05), rgba(46, 229, 255, 0.05));
-  border: 1px solid rgba(124, 58, 237, 0.2);
+  background: var(--primary-light);
+  border: 1px solid var(--primary-1);
   animation: fadeInUp 0.6s ease-out 0.5s both;
   position: relative;
   overflow: hidden;
@@ -410,7 +410,7 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(45deg, transparent, rgba(124, 58, 237, 0.1), transparent);
+  background: linear-gradient(45deg, transparent, var(--primary-light), transparent);
   animation: shimmer 3s infinite;
   pointer-events: none;
 }
@@ -464,13 +464,13 @@
 .gettingStartedText h3 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--dark-text);
+  color: var(--text-primary);
   margin: 0 0 0.5rem 0;
 }
 
 .gettingStartedText p {
   font-size: 1rem;
-  color: var(--dark-text-muted);
+  color: var(--text-secondary);
   margin: 0;
   line-height: 1.6;
 }
@@ -490,7 +490,7 @@
   cursor: pointer;
   text-decoration: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+  box-shadow: var(--shadow-accent);
   position: relative;
   overflow: hidden;
 }
@@ -502,7 +502,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, var(--glass-highlight), transparent);
   transition: left 0.6s ease;
 }
 
@@ -512,7 +512,7 @@
 
 .primaryButton:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 40px rgba(124, 58, 237, 0.4);
+  box-shadow: var(--shadow-accent-hover);
 }
 
 .primaryButton:active {

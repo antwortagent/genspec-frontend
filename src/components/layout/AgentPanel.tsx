@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import styles from '@/styles/AgentPanel.module.css';
+import React, { useState, useRef, useEffect } from 'react';
+import styles from './AgentPanel.module.css';
 import { ChatPanel } from './ChatPanel';
 import { VoicePanel } from './VoicePanel';
 

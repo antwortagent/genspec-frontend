@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '@/styles/TopBar.module.css';
+import styles from './TopBar.module.css';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/store/auth';
 

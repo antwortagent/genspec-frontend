@@ -244,7 +244,7 @@
 
 .vu {
   width: 5px;
-  background: linear-gradient(180deg, #2EE5FF, #7C3AED);
+  background: linear-gradient(180deg, var(--accent-2), var(--accent-1));
   border-radius: 3px;
   box-shadow: 0 0 15px rgba(46, 229, 255, 0.6);
   transition: height 0.1s ease, opacity 0.1s ease;
@@ -256,7 +256,7 @@
   height: 64px;
   border-radius: 9999px;
   border: 2px solid rgba(255, 255, 255, 0.4);
-  background: linear-gradient(135deg, #2EE5FF, #7C3AED);
+  background: linear-gradient(135deg, var(--accent-2), var(--accent-1));
   color: #fff;
   display: flex;
   align-items: center;
@@ -273,7 +273,7 @@
   inset: -2px;
   border-radius: inherit;
   padding: 2px;
-  background: linear-gradient(135deg, #2EE5FF, #7C3AED);
+  background: linear-gradient(135deg, var(--accent-2), var(--accent-1));
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
 }
@@ -359,9 +359,9 @@
   content: '';
   width: 8px;
   height: 8px;
-  background: linear-gradient(135deg, #2EE5FF, #7C3AED);
+  background: linear-gradient(135deg, var(--accent-2), var(--accent-1));
   border-radius: 50%;
-  box-shadow: 0 0 8px rgba(46, 229, 255, 0.4);
+  box-shadow: 0 0 8px var(--shadow-accent);
 }
 
 .actions {

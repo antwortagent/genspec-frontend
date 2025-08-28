@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import styles from '@/styles/Sidebar.module.css';
+import styles from './Sidebar.module.css';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 
 interface SidebarProps {
