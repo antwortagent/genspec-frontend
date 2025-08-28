@@ -3,6 +3,34 @@
   display: flex;
   flex-direction: column;
   background: var(--bg-subtle);
+  position: relative;
+  overflow: hidden;
+}
+
+.appShell::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  right: -200px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0) 70%);
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.appShell::after {
+  content: '';
+  position: absolute;
+  bottom: -200px;
+  left: -200px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.05) 0%, rgba(124, 58, 237, 0) 70%);
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .content {
@@ -10,6 +38,8 @@
   display: flex;
   gap: 0;
   overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
 .main {
@@ -17,8 +47,66 @@
   min-width: 0;
   overflow-y: auto;
   background: var(--bg-subtle);
+  padding: var(--space-md);
+  transition: all var(--transition-normal);
+  animation: fadeIn 0.5s ease-in-out;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.main::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.main::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--bg-subtle);
+}
+
+.main::-webkit-scrollbar-thumb:hover {
+  background-color: var(--border-strong);
+}
+
+.mainWithShadow {
+  box-shadow: inset 3px 0 10px rgba(0, 0, 0, 0.03);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1200px) {
+  .main {
+    padding: var(--space-sm);
+  }
 }
 
 @media (max-width: 1024px) {
-  .content { position: relative; }
+  .content { 
+    position: relative; 
+  }
+  
+  .main {
+    padding: var(--space-xs);
+  }
+}
+
+@media (max-width: 768px) {
+  .appShell::before,
+  .appShell::after {
+    display: none;
+  }
 }

@@ -1,0 +1,359 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import styles from './EnhancedDashboard.module.css';
+import { ProactiveInsightCard } from '../components/ui/ProactiveInsightCard';
+import GlassCard from '../components/ui/GlassCard';
+
+// Enhanced icons for better visualization
+const ProjectIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M3 9H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M9 21V9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+const SpecsIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M14 2V8H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M16 13H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M16 17H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M10 9H9H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+const TimeIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+const TeamIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+// Sample template data
+const recommendedTemplates = [
+  {
+    id: 1,
+    name: 'API Requirements',
+    description: 'Complete template for defining API requirements with user stories and acceptance criteria',
+    popularity: 95,
+    category: 'Technical'
+  },
+  {
+    id: 2,
+    name: 'Regulatory Compliance',
+    description: 'Ensure your product meets industry regulatory standards and compliance requirements',
+    popularity: 87,
+    category: 'Compliance'
+  },
+  {
+    id: 3,
+    name: 'Product Vision Document',
+    description: 'Strategic document outlining the vision, goals, and roadmap for product development',
+    popularity: 92,
+    category: 'Strategy'
+  }
+];
+
+// Sample project data
+interface RecentProject {
+  id: number;
+  name: string;
+  status: 'intake' | 'draft' | 'review' | 'completed';
+  lastUpdated: string;
+  progress: number;
+  owner: string;
+  collaborators: number;
+  dueDate?: string;
+}
+
+const recentProjects: RecentProject[] = [
+  { 
+    id: 1, 
+    name: 'Jewellery Website', 
+    status: 'intake', 
+    lastUpdated: '1 hours ago', 
+    progress: 25, 
+    owner: 'You',
+    collaborators: 2,
+    dueDate: '2025-09-10'
+  },
+  { 
+    id: 2, 
+    name: 'E-Commerce Platform for medicine', 
+    status: 'intake', 
+    lastUpdated: '16 days ago', 
+    progress: 35, 
+    owner: 'Sarah Chen',
+    collaborators: 4,
+    dueDate: '2025-09-15'
+  },
+  { 
+    id: 3, 
+    name: 'Acme Chatbot', 
+    status: 'draft', 
+    lastUpdated: '16 days ago', 
+    progress: 60, 
+    owner: 'You',
+    collaborators: 1
+  }
+];
+
+// Stats data
+const statsData = {
+  activeProjects: 3,
+  generatedSpecs: 12,
+  timeSaved: '24.5h',
+  teamMembers: 5
+};
+
+const EnhancedDashboardPage: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<'projects' | 'templates' | 'analytics'>('projects');
+
+  // Get status color based on project status
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'intake': return styles.statusIntake;
+      case 'draft': return styles.statusDraft;
+      case 'review': return styles.statusReview;
+      case 'completed': return styles.statusCompleted;
+      default: return '';
+    }
+  };
+
+  // Get status label
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'intake': return 'Intake';
+      case 'draft': return 'Draft';
+      case 'review': return 'In Review';
+      case 'completed': return 'Completed';
+      default: return status;
+    }
+  };
+
+  return (
+    <div className={styles.dashboardContainer}>
+      <div className={styles.dashboardHeader}>
+        <div>
+          <h1 className={styles.welcomeHeading}>Welcome to your workspace</h1>
+          <p className={styles.welcomeSubheading}>
+            Create clear, audit-ready specifications with proactive AI assistance.
+          </p>
+        </div>
+        <div className={styles.headerActions}>
+          <button className={styles.newProjectButton}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 5V19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            New Project
+          </button>
+          <button className={styles.actionButton}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 3V7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M18.364 5.63604L15.5355 8.46447" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M21 12H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M18.364 18.364L15.5355 15.5355" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M12 21V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M5.63604 18.364L8.46447 15.5355" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M3 12H7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M5.63604 5.63604L8.46447 8.46447" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Proactive Insights Section */}
+      <div className={styles.insightsSection}>
+        <h2 className={styles.sectionTitle}>Proactive Insights</h2>
+        <div className={styles.insightsContainer}>
+          <ProactiveInsightCard 
+            severity="warning"
+            title="Requirements Gap Detected"
+            description="User authentication requirements in 'E-Commerce Platform' are missing critical security specifications."
+            actionText="Review & Fix"
+          />
+          <ProactiveInsightCard 
+            severity="info"
+            title="Compliance Check"
+            description="New GDPR template available that matches your industry requirements."
+            actionText="Apply Template"
+          />
+          <ProactiveInsightCard 
+            severity="success"
+            title="Audit Ready"
+            description="'Acme Chatbot' has complete requirements and is ready for compliance review."
+            actionText="Start Review"
+          />
+        </div>
+      </div>
+
+      {/* Stats Section */}
+      <div className={styles.statsSection}>
+        <div className={styles.statCard}>
+          <div className={styles.statIconContainer}>
+            <ProjectIcon />
+          </div>
+          <div className={styles.statContent}>
+            <span className={styles.statValue}>{statsData.activeProjects}</span>
+            <span className={styles.statLabel}>Active Projects</span>
+          </div>
+        </div>
+        <div className={styles.statCard}>
+          <div className={styles.statIconContainer}>
+            <SpecsIcon />
+          </div>
+          <div className={styles.statContent}>
+            <span className={styles.statValue}>{statsData.generatedSpecs}</span>
+            <span className={styles.statLabel}>Generated Specs</span>
+          </div>
+        </div>
+        <div className={styles.statCard}>
+          <div className={styles.statIconContainer}>
+            <TimeIcon />
+          </div>
+          <div className={styles.statContent}>
+            <span className={styles.statValue}>{statsData.timeSaved}</span>
+            <span className={styles.statLabel}>Time Saved</span>
+          </div>
+        </div>
+        <div className={styles.statCard}>
+          <div className={styles.statIconContainer}>
+            <TeamIcon />
+          </div>
+          <div className={styles.statContent}>
+            <span className={styles.statValue}>{statsData.teamMembers}</span>
+            <span className={styles.statLabel}>Team Members</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Content Tabs */}
+      <div className={styles.contentTabs}>
+        <div className={styles.tabsHeader}>
+          <button 
+            className={`${styles.tabButton} ${activeTab === 'projects' ? styles.activeTab : ''}`}
+            onClick={() => setActiveTab('projects')}
+          >
+            Recent Projects
+          </button>
+          <button 
+            className={`${styles.tabButton} ${activeTab === 'templates' ? styles.activeTab : ''}`}
+            onClick={() => setActiveTab('templates')}
+          >
+            Recommended Templates
+          </button>
+          <button 
+            className={`${styles.tabButton} ${activeTab === 'analytics' ? styles.activeTab : ''}`}
+            onClick={() => setActiveTab('analytics')}
+          >
+            Analytics
+          </button>
+        </div>
+
+        <div className={styles.tabContent}>
+          {activeTab === 'projects' && (
+            <div className={styles.projectsList}>
+              <table className={styles.projectsTable}>
+                <thead>
+                  <tr>
+                    <th>Project</th>
+                    <th>Owner</th>
+                    <th>Progress</th>
+                    <th>Status</th>
+                    <th>Due Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recentProjects.map((project) => (
+                    <tr key={project.id} className={styles.projectRow}>
+                      <td className={styles.projectName}>
+                        <div className={styles.projectNameContainer}>
+                          <span className={styles.projectIcon}>
+                            <ProjectIcon />
+                          </span>
+                          <div>
+                            <span className={styles.projectTitle}>{project.name}</span>
+                            <span className={styles.projectMeta}>
+                              Updated {project.lastUpdated} • {project.collaborators} collaborators
+                            </span>
+                          </div>
+                        </div>
+                      </td>
+                      <td>{project.owner}</td>
+                      <td>
+                        <div className={styles.progressBarContainer}>
+                          <div 
+                            className={styles.progressBar} 
+                            style={{ width: `${project.progress}%` }}
+                          ></div>
+                        </div>
+                        <div className={styles.progressText}>{project.progress}%</div>
+                      </td>
+                      <td>
+                        <span className={`${styles.statusBadge} ${getStatusColor(project.status)}`}>
+                          {getStatusLabel(project.status)}
+                        </span>
+                      </td>
+                      <td>{project.dueDate ? new Date(project.dueDate).toLocaleDateString() : '—'}</td>
+                      <td>
+                        <button className={styles.actionLink}>Continue</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {activeTab === 'templates' && (
+            <div className={styles.templatesGrid}>
+              {recommendedTemplates.map(template => (
+                <GlassCard key={template.id} className={styles.templateCard}>
+                  <div className={styles.templateHeader}>
+                    <span className={styles.templateCategory}>{template.category}</span>
+                    <span className={styles.templatePopularity}>{template.popularity}% match</span>
+                  </div>
+                  <h3 className={styles.templateTitle}>{template.name}</h3>
+                  <p className={styles.templateDescription}>{template.description}</p>
+                  <div className={styles.templateActions}>
+                    <button className={styles.primaryButton}>Use Template</button>
+                    <button className={styles.secondaryButton}>Preview</button>
+                  </div>
+                </GlassCard>
+              ))}
+            </div>
+          )}
+
+          {activeTab === 'analytics' && (
+            <div className={styles.analyticsContainer}>
+              <div className={styles.analyticsPlaceholder}>
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 20V10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M12 20V4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M6 20V14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <h3>Analytics Dashboard</h3>
+                <p>Track project progress, team performance, and requirement quality metrics</p>
+                <button className={styles.primaryButton}>Setup Analytics</button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EnhancedDashboardPage;

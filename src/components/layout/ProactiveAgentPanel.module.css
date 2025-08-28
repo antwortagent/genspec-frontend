@@ -57,7 +57,7 @@
 }
 
 .statusIndicator.thinking svg {
-  color: var(--warning);
+  color: var(--status-thinking);
 }
 
 .statusIndicator.speaking {
@@ -65,7 +65,7 @@
 }
 
 .statusIndicator.speaking svg {
-  color: var(--accent-2);
+  color: var(--status-speaking);
   animation: wave 1s ease-in-out infinite;
 }
 
