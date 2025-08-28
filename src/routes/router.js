@@ -1,9 +1,11 @@
 import { jsx as _jsx, Fragment as _Fragment } from "react/jsx-runtime";
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { LandingPage } from '@/pages/LandingPage';
+import ModernLandingPage from '@/pages/modern/ModernLandingPage';
 import { LoginPage } from '@/pages/auth/LoginPage';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { DashboardPage } from '@/pages/DashboardPage';
+import EnhancedDashboardPage from '@/pages/EnhancedDashboard';
 import { NotificationsPage } from '@/pages/NotificationsPage';
 import { ProjectsPage } from '../pages/ProjectsPage';
 import { ProjectLayout } from '@/pages/project/ProjectLayout';
@@ -31,6 +33,10 @@ const PublicRoute = ({ children }) => {
 export const router = createBrowserRouter([
     {
         path: '/',
+        element: _jsx(PublicRoute, { children: _jsx(ModernLandingPage, {}) }),
+    },
+    {
+        path: '/landing-classic',
         element: _jsx(PublicRoute, { children: _jsx(LandingPage, {}) }),
     },
     {
@@ -50,6 +56,10 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
+                element: _jsx(EnhancedDashboardPage, {}),
+            },
+            {
+                path: 'classic',
                 element: _jsx(DashboardPage, {}),
             },
         ],

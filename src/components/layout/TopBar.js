@@ -1,18 +1,10 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-runtime";
 import styles from '@/styles/TopBar.module.css';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/store/auth';
-export const TopBar = () => {
+export const TopBar = ({ toggleSidebar, isSidebarVisible = true, isMobile = false }) => {
     const { pathname } = useLocation();
     const isAuth = pathname === '/login';
     const { user, logout } = useAuth();
-    return (_jsxs("header", { className: styles.topbar, children: [_jsxs("div", { className: styles.left, children: [_jsx(Link, { to: "/", className: styles.logo, children: "GenSpec" }), !isAuth && (_jsxs("nav", { style: { marginLeft: '32px', display: 'flex', gap: '24px' }, children: [_jsx(Link, { to: "/dashboard", style: { color: 'var(--text)', textDecoration: 'none', fontWeight: '500' }, children: "Dashboard" }), _jsx(Link, { to: "/projects", style: { color: 'var(--text-muted)', textDecoration: 'none', fontWeight: '500' }, children: "Projects" }), _jsx(Link, { to: "/notifications", style: { color: 'var(--text-muted)', textDecoration: 'none', fontWeight: '500' }, children: "Notifications" })] }))] }), !isAuth && (_jsx("div", { className: styles.right, children: user && (_jsxs("div", { style: { display: 'flex', alignItems: 'center', gap: '16px' }, children: [_jsx("span", { style: { fontSize: '14px', color: 'var(--text-muted)' }, children: user.email }), _jsx("button", { onClick: logout, style: {
-                                background: 'none',
-                                border: '1px solid var(--glass-border)',
-                                padding: '6px 12px',
-                                borderRadius: '6px',
-                                color: 'var(--text-muted)',
-                                fontSize: '14px',
-                                cursor: 'pointer'
-                            }, children: "Sign out" })] })) }))] }));
+    return (_jsxs("header", { className: styles.topbar, children: [_jsxs("div", { className: styles.left, children: [!isAuth && toggleSidebar && (_jsx("button", { onClick: toggleSidebar, className: styles.menuToggle, "aria-label": isSidebarVisible ? "Hide Sidebar" : "Show Sidebar", children: _jsx("svg", { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: isSidebarVisible ? (_jsxs(_Fragment, { children: [_jsx("line", { x1: "18", y1: "6", x2: "6", y2: "18" }), _jsx("line", { x1: "6", y1: "6", x2: "18", y2: "18" })] })) : (_jsxs(_Fragment, { children: [_jsx("line", { x1: "3", y1: "12", x2: "21", y2: "12" }), _jsx("line", { x1: "3", y1: "6", x2: "21", y2: "6" }), _jsx("line", { x1: "3", y1: "18", x2: "21", y2: "18" })] })) }) })), _jsx(Link, { to: "/", className: styles.logo, children: "GenSpec" }), !isAuth && !isMobile && (_jsxs("nav", { className: styles.topNav, children: [_jsx(Link, { to: "/dashboard", className: pathname === '/dashboard' ? styles.activeLink : styles.navLink, children: "Dashboard" }), _jsx(Link, { to: "/projects", className: pathname.startsWith('/projects') ? styles.activeLink : styles.navLink, children: "Projects" }), _jsx(Link, { to: "/notifications", className: pathname === '/notifications' ? styles.activeLink : styles.navLink, children: "Notifications" })] }))] }), !isAuth && (_jsx("div", { className: styles.right, children: user && (_jsxs("div", { className: styles.userInfo, children: [_jsx("span", { className: styles.userEmail, children: user.email }), _jsx("button", { onClick: logout, className: styles.signOutButton, children: "Sign out" })] })) }))] }));
 };

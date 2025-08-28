@@ -161,18 +161,6 @@
   --ease-in: cubic-bezier(0.4, 0, 1, 1);
 }
 
-/* Dark theme (still available for future) */
-:root{
-  --dark-bg:#0B0F14;
-  --dark-aurora-1: rgba(124,58,237,0.20);
-  --dark-aurora-2: rgba(46,229,255,0.18);
-  --dark-panel:#0F141A;
-  --dark-panel-subtle:#0c1117;
-  --dark-border:rgba(255,255,255,0.08);
-  --dark-text:rgba(255,255,255,0.92);
-  --dark-text-muted:rgba(255,255,255,0.64);
-}
-
 /* Base styles */
 *{
   box-sizing: border-box;

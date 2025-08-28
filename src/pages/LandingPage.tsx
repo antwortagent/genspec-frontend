@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './LandingPage.module.css';
 
 export const LandingPage: React.FC = () => {
+  // Add staggered animation to elements
+  useEffect(() => {
+    const animatedElements = document.querySelectorAll('.animate-stagger');
+    animatedElements.forEach((element, index) => {
+      (element as HTMLElement).style.animationDelay = `${index * 0.1}s`;
+    });
+  }, []);
+  
   return (
     <div className={styles.landingPage}>
       {/* Navigation */}
@@ -23,16 +31,16 @@ export const LandingPage: React.FC = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className={styles.hero}>
+      <section className={`${styles.hero}`}>
         <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>
+          <h1 className={`${styles.heroTitle} animate-stagger`}>
             AI-Powered Specification Generation
           </h1>
-          <p className={styles.heroSubtitle}>
+          <p className={`${styles.heroSubtitle} animate-stagger`}>
             Transform your ideas into detailed technical specifications with the power of AI. 
             GenSpec helps teams create comprehensive project documentation in minutes, not hours.
           </p>
-          <div className={styles.heroActions}>
+          <div className={`${styles.heroActions} animate-stagger`}>
             <Link to="/login" className={styles.primaryButton}>
               Start Free Trial
             </Link>
@@ -40,7 +48,7 @@ export const LandingPage: React.FC = () => {
               Watch Demo
             </button>
           </div>
-          <div className={styles.heroStats}>
+          <div className={`${styles.heroStats} animate-stagger`}>
             <div className={styles.stat}>
               <h3>10,000+</h3>
               <p>Projects Created</p>
@@ -55,7 +63,7 @@ export const LandingPage: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className={styles.heroImage}>
+        <div className={`${styles.heroImage} animate-stagger`}>
           <div className={styles.mockup}>
             <div className={styles.mockupHeader}>
               <span></span>
@@ -75,12 +83,12 @@ export const LandingPage: React.FC = () => {
       {/* Features Section */}
       <section id="features" className={styles.features}>
         <div className={styles.sectionContent}>
-          <h2 className={styles.sectionTitle}>Powerful Features</h2>
-          <p className={styles.sectionSubtitle}>
+          <h2 className={`${styles.sectionTitle} animate-stagger`}>Powerful Features</h2>
+          <p className={`${styles.sectionSubtitle} animate-stagger`}>
             Everything you need to create professional specifications
           </p>
           <div className={styles.featureGrid}>
-            <div className={styles.featureCard}>
+            <div className={`${styles.featureCard} animate-stagger`}>
               <div className={styles.featureIcon}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M12 2L2 7L12 12L22 7L12 2Z" />
@@ -91,7 +99,7 @@ export const LandingPage: React.FC = () => {
               <h3>AI-Powered Generation</h3>
               <p>Advanced AI understands your requirements and generates comprehensive specifications</p>
             </div>
-            <div className={styles.featureCard}>
+            <div className={`${styles.featureCard} animate-stagger`}>
               <div className={styles.featureIcon}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
@@ -102,7 +110,7 @@ export const LandingPage: React.FC = () => {
               <h3>Smart Templates</h3>
               <p>Choose from industry-standard templates or create your own custom formats</p>
             </div>
-            <div className={styles.featureCard}>
+            <div className={`${styles.featureCard} animate-stagger`}>
               <div className={styles.featureIcon}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -114,7 +122,7 @@ export const LandingPage: React.FC = () => {
               <h3>Team Collaboration</h3>
               <p>Work together in real-time with your team to refine and perfect specifications</p>
             </div>
-            <div className={styles.featureCard}>
+            <div className={`${styles.featureCard} animate-stagger`}>
               <div className={styles.featureIcon}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -134,24 +142,24 @@ export const LandingPage: React.FC = () => {
       {/* How It Works Section */}
       <section id="how-it-works" className={styles.howItWorks}>
         <div className={styles.sectionContent}>
-          <h2 className={styles.sectionTitle}>How It Works</h2>
-          <p className={styles.sectionSubtitle}>
+          <h2 className={`${styles.sectionTitle} animate-stagger`}>How It Works</h2>
+          <p className={`${styles.sectionSubtitle} animate-stagger`}>
             Create professional specifications in three simple steps
           </p>
           <div className={styles.steps}>
-            <div className={styles.step}>
+            <div className={`${styles.step} animate-stagger`}>
               <div className={styles.stepNumber}>1</div>
               <h3>Describe Your Project</h3>
               <p>Tell our AI about your project requirements, goals, and constraints using natural language</p>
             </div>
             <div className={styles.stepConnector}></div>
-            <div className={styles.step}>
+            <div className={`${styles.step} animate-stagger`}>
               <div className={styles.stepNumber}>2</div>
               <h3>AI Generates Specs</h3>
               <p>Our AI analyzes your input and creates a comprehensive specification document</p>
             </div>
             <div className={styles.stepConnector}></div>
-            <div className={styles.step}>
+            <div className={`${styles.step} animate-stagger`}>
               <div className={styles.stepNumber}>3</div>
               <h3>Review & Export</h3>
               <p>Review, edit, and collaborate on the specs, then export in your preferred format</p>
@@ -163,12 +171,12 @@ export const LandingPage: React.FC = () => {
       {/* CTA Section */}
       <section className={styles.cta}>
         <div className={styles.ctaContent}>
-          <h2>Ready to Transform Your Workflow?</h2>
-          <p>Join thousands of teams already using GenSpec to streamline their specification process</p>
-          <Link to="/login" className={styles.ctaButtonLarge}>
+          <h2 className="animate-stagger">Ready to Transform Your Workflow?</h2>
+          <p className="animate-stagger">Join thousands of teams already using GenSpec to streamline their specification process</p>
+          <Link to="/login" className={`${styles.ctaButtonLarge} animate-stagger`}>
             Start Your Free Trial
           </Link>
-          <p className={styles.ctaNote}>No credit card required • 14-day free trial</p>
+          <p className={`${styles.ctaNote} animate-stagger`}>No credit card required • 14-day free trial</p>
         </div>
       </section>
 
