@@ -71,7 +71,7 @@ const ModernLandingPage: React.FC = () => {
       <section className={styles.heroSection}>
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
-            <span className={styles.highlight}>Proactive AI</span> for Requirements Engineering
+            <span className={styles.highlight}>Proactive AI Assistant</span> for Product Leaders
           </h1>
           <p className={styles.heroSubtitle}>
             Generate audit-ready specifications with AI assistance that anticipates and addresses compliance requirements before they become issues.
@@ -168,7 +168,7 @@ const ModernLandingPage: React.FC = () => {
       {/* Features Section */}
       <section id="features" className={styles.featuresSection}>
         <div className={styles.sectionHeader}>
-          <h2>Proactive Requirements Engineering</h2>
+          <h2>Proactive AI Assistant for Product Leaders</h2>
           <p>Our AI anticipates compliance needs and automates specification creation</p>
         </div>
         <div className={styles.featuresGrid}>
@@ -351,7 +351,7 @@ const ModernLandingPage: React.FC = () => {
         <div className={styles.footerContent}>
           <div className={styles.footerColumn}>
             <h3>GenSpec</h3>
-            <p>AI-powered requirements engineering for professional teams.</p>
+            <p>AI-powered requirements engineering for product leaders.</p>
           </div>
           <div className={styles.footerColumn}>
             <h4>Product</h4>
