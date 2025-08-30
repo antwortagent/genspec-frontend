@@ -10,12 +10,14 @@ export function useRealtimeOpenAI() {
   const [state, setState] = useState<ConnState>('idle');
   const [error, setError] = useState<string | null>(null);
   const [assistantText, setAssistantText] = useState<string>('');
+  const [ready, setReady] = useState<boolean>(false);
 
   const connect = useCallback(async (session: FEVoiceConnect, inputStream: MediaStream) => {
     if (!session) throw new Error('Missing session');
-    setState('connecting');
+  setState('connecting');
     setError(null);
     setAssistantText('');
+  setReady(false);
 
     // Fallback STUN if not provided
     const iceServers = session.iceServers ?? [{ urls: 'stun:stun.l.google.com:19302' }];
@@ -60,12 +62,32 @@ export function useRealtimeOpenAI() {
 
     pc.onconnectionstatechange = () => {
       if (pc.connectionState === 'connected') setState('connected');
-      if (pc.connectionState === 'failed' || pc.connectionState === 'disconnected') setState('error');
+      if (pc.connectionState === 'failed' || pc.connectionState === 'disconnected') { setState('error'); setReady(false); }
     };
 
     // Create offer to receive audio
     const offer = await pc.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: false } as any);
     await pc.setLocalDescription(offer);
+    // Wait for ICE gathering to complete to include all candidates in the SDP (non-trickle flow)
+    await new Promise<void>((resolve) => {
+      if (pc.iceGatheringState === 'complete') return resolve();
+      const checkComplete = () => {
+        if (pc.iceGatheringState === 'complete') {
+          pc.removeEventListener('icegatheringstatechange', checkComplete);
+          resolve();
+        }
+      };
+      pc.addEventListener('icegatheringstatechange', checkComplete);
+      // As a fallback, also resolve after onicecandidate null
+      const onIceCandidate = (e: RTCPeerConnectionIceEvent) => {
+        if (!e.candidate) {
+          pc.removeEventListener('icecandidate', onIceCandidate as any);
+          pc.removeEventListener('icegatheringstatechange', checkComplete);
+          resolve();
+        }
+      };
+      pc.addEventListener('icecandidate', onIceCandidate as any);
+    });
 
     // Validate provider_url and session_flow
     const url = session.provider_url || '';
@@ -122,7 +144,7 @@ export function useRealtimeOpenAI() {
       const res = await fetch(session.provider_url, {
         method: 'POST',
         headers,
-        body: offer.sdp || ''
+        body: (pc.localDescription?.sdp || offer.sdp || '')
       });
       if (!res.ok) {
         const text = await res.text();
@@ -133,14 +155,33 @@ export function useRealtimeOpenAI() {
 
       // Send session instructions after DC opens
       dc.onopen = () => {
+        setReady(true);
         try {
           dc.send(JSON.stringify({ type: 'session.update', session: session.instructions }));
         } catch {}
       };
+      dc.onclose = () => { setReady(false); };
     } catch (e: any) {
       setError(e?.message || 'Realtime connection failed');
       setState('error');
+      setReady(false);
     }
+
+    // Wait until data channel is open before resolving connect
+    await new Promise<void>((resolve, reject) => {
+      const dc = dcRef.current;
+      if (dc && dc.readyState === 'open') return resolve();
+      const timeout = setTimeout(() => {
+        try { dc?.removeEventListener?.('open', onOpen as any); } catch {}
+        reject(new Error('Data channel not ready'));
+      }, 8000);
+      function onOpen() {
+        clearTimeout(timeout);
+        try { dc?.removeEventListener?.('open', onOpen as any); } catch {}
+        resolve();
+      }
+      try { dc?.addEventListener?.('open', onOpen as any, { once: true } as any); } catch {}
+    });
 
     return { remoteStream: remoteStreamRef.current };
   }, []);
@@ -205,5 +246,6 @@ export function useRealtimeOpenAI() {
     sendText,
     updateSession,
     disconnect,
+  ready,
   };
 }

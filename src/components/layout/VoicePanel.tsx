@@ -18,10 +18,6 @@ export const VoicePanel: React.FC = () => {
   const [wakeSound, setWakeSound] = useState<boolean>(true);
   const [volume, setVolume] = useState<number>(0);
   const [micError, setMicError] = useState<string | null>(null);
-  const [mode, setMode] = useState<'voice' | 'chat'>('voice');
-  const [chatInput, setChatInput] = useState('');
-  const [modelParam, setModelParam] = useState<string>('');
-  const [voiceParam, setVoiceParam] = useState<string>('');
   const audioCtxRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const sourceRef = useRef<MediaStreamAudioSourceNode | null>(null);
@@ -33,7 +29,7 @@ export const VoicePanel: React.FC = () => {
   const isGemini = !!(session && ((session as any).instructions?.provider_parameters?.provider === 'gemini' || (session as any).provider?.includes('gemini')));
   const useMeshWS = !!(session && (((session as any).provider === 'gemini_ws') || (session as any).provider_url?.startsWith('ws://') || (session as any).provider_url?.startsWith('wss:')));
   const chosen = useMeshWS ? meshWSRT : (isGemini ? geminiRT : openaiRT);
-  const { state: rtState, error: rtError, assistantText, connect, disconnect, sendText, updateSession } = chosen as any;
+  const { state: rtState, error: rtError, assistantText, connect, disconnect } = chosen as any;
   const remoteAudioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -101,9 +97,9 @@ export const VoicePanel: React.FC = () => {
         };
         tick();
 
-        // After mic is ready and we have a session, connect to provider for realtime replies (voice mode only)
+        // After mic is ready and we have a session, connect to provider for realtime replies
         try {
-          if (session && mode === 'voice') {
+          if (session) {
             const resp: any = await connect(session as any, stream);
             const remoteStream = resp?.remoteStream;
             const audioEl = resp?.audioEl;
@@ -154,14 +150,14 @@ export const VoicePanel: React.FC = () => {
       setVolume(0);
     };
 
-    if (status === 'listening' && mode === 'voice') {
+    if (status === 'listening') {
       startMic();
     } else {
       stopMic();
       disconnect();
     }
     return () => { stopMic(); };
-  }, [status, wakeSound, session, mode]);
+  }, [status, wakeSound, session]);
 
   // Cleanup on page hide/unload: end session and disconnect
   useEffect(() => {
@@ -179,7 +175,6 @@ export const VoicePanel: React.FC = () => {
 
   const toggleListening = async () => {
   setRippleId((n) => n + 1);
-    if (mode !== 'voice') return; // Only mic control in voice mode
     if (status === 'idle') {
       if (!projectId) {
         setMicError('Open a project to start a voice session.');
@@ -230,16 +225,11 @@ export const VoicePanel: React.FC = () => {
           {status === 'listening' && 'Listening'}
           {status === 'processing' && 'Processing'}
         </span>
-        {import.meta.env?.DEV && session && (
+  {import.meta.env?.DEV && session && (
           <span className={`${styles.provider} ${isGemini ? styles.gemini : styles.openai}`}>
             {isGemini ? 'Gemini' : 'OpenAI'}
           </span>
         )}
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
-          <button className={styles.action} onClick={() => setMode((m) => (m === 'voice' ? 'chat' : 'voice'))}>
-            {mode === 'voice' ? 'Switch to Chat' : 'Switch to Voice'}
-          </button>
-        </div>
       </div>
 
       <div className={styles.body}>
@@ -288,13 +278,9 @@ export const VoicePanel: React.FC = () => {
             </svg>
           </div>
           <div className={styles.prompt}>{transcript || <span className={styles.promptExample}>"Tell me about your project requirements..."</span>}</div>
-          {mode === 'voice' ? (
-            <div className={`${styles.listeningText} ${status === 'idle' ? styles.tapPulse : ''}`}>
-              {status === 'listening' ? 'Listening...' : status === 'processing' ? 'Processing...' : 'Tap to speak'}
-            </div>
-          ) : (
-            <div className={styles.listeningText}>Chat mode</div>
-          )}
+          <div className={`${styles.listeningText} ${status === 'idle' ? styles.tapPulse : ''}`}>
+            {status === 'listening' ? 'Listening...' : status === 'processing' ? 'Processing...' : 'Tap to speak'}
+          </div>
           {sessionLoading && <div className={styles.timer}>Connecting...</div>}
           {rtError && <div className={styles.micError} role="alert">{rtError}</div>}
           <div className={styles.vuBars} aria-hidden>
@@ -303,7 +289,6 @@ export const VoicePanel: React.FC = () => {
               return <span key={i} className={styles.vu} style={{ height: `${h}px`, opacity: 0.7 + volume * 0.3 }} />;
             })}
           </div>
-          {mode === 'voice' && (
           <button
             className={`${styles.fabMic} ${status === 'listening' ? styles.active : ''}`}
             onClick={toggleListening}
@@ -316,7 +301,6 @@ export const VoicePanel: React.FC = () => {
               <line x1="8" y1="23" x2="16" y2="23"/>
             </svg>
           </button>
-          )}
           <div className={styles.timer}>{mmss(timer)}</div>
           {(micError || sessionError) && <div className={styles.micError} role="alert">{micError || sessionError}</div>}
         </div>
@@ -329,37 +313,6 @@ export const VoicePanel: React.FC = () => {
                 <input type="checkbox" checked={wakeSound} onChange={(e) => setWakeSound(e.target.checked)} />
                 <span>Wake sound</span>
               </label>
-              <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                <input
-                  placeholder="Model (optional)"
-                  value={modelParam}
-                  onChange={(e) => setModelParam(e.target.value)}
-                  className={styles.action}
-                  style={{ padding: '6px 10px' }}
-                />
-                <input
-                  placeholder="Voice (optional)"
-                  value={voiceParam}
-                  onChange={(e) => setVoiceParam(e.target.value)}
-                  className={styles.action}
-                  style={{ padding: '6px 10px' }}
-                />
-                <button
-                  className={styles.action}
-                  onClick={async () => {
-                    try {
-                      if (!updateSession) return;
-                      const changes: any = { provider_parameters: {} };
-                      if (modelParam.trim()) changes.provider_parameters.model = modelParam.trim();
-                      if (voiceParam.trim()) changes.provider_parameters.voice = voiceParam.trim();
-                      if (!changes.provider_parameters.model && !changes.provider_parameters.voice) return;
-                      await updateSession(changes);
-                    } catch (e:any) {
-                      setMicError(e?.message || 'Failed to update session');
-                    }
-                  }}
-                >Apply</button>
-              </div>
               <button className={styles.action} onClick={() => setTranscript('')}>
                 Clear
               </button>
@@ -372,30 +325,6 @@ export const VoicePanel: React.FC = () => {
               <p className={styles.placeholder}>Your voice transcript will appear here.</p>
             )}
           </div>
-          {mode === 'chat' && (
-            <div style={{ display: 'flex', gap: 8, paddingTop: 8 }}>
-              <input
-                value={chatInput}
-                onChange={(e) => setChatInput(e.target.value)}
-                placeholder="Type a message"
-                className={styles.action}
-                style={{ flex: 1, padding: '8px 12px' }}
-              />
-              <button
-                className={styles.action}
-                onClick={async () => {
-                  if (!chatInput.trim()) return;
-                  try {
-                    await sendText?.(chatInput.trim());
-                    setTranscript((t) => (t ? t + '\n' : '') + chatInput.trim());
-                    setChatInput('');
-                  } catch (e:any) {
-                    setMicError(e?.message || 'Failed to send');
-                  }
-                }}
-              >Send</button>
-            </div>
-          )}
         </div>
       </div>
     </div>

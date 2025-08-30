@@ -22,11 +22,13 @@ export function useRealtimeMeshWS() {
   const [state, setState] = useState<ConnState>('idle');
   const [error, setError] = useState<string | null>(null);
   const [assistantText, setAssistantText] = useState<string>('');
+  const [ready, setReady] = useState<boolean>(false);
 
   const connect = useCallback(async (session: FEVoiceConnect & { audio?: any }, inputStream: MediaStream) => {
-    setState('connecting');
+  setState('connecting');
     setError(null);
     setAssistantText('');
+  setReady(false);
 
     if (!session.provider_url.startsWith('ws://') && !session.provider_url.startsWith('wss://')) {
       setError('Invalid provider_url for mesh WS. Expected ws:// or wss://');
@@ -41,6 +43,7 @@ export function useRealtimeMeshWS() {
 
     ws.onopen = () => {
       setState('connected');
+      setReady(true);
       // Send a start/control frame if needed (voice/locale/etc.)
       const startMsg = { type: 'start', audio: session.audio || { sampleRate: 16000, encoding: 'pcm16' } };
       ws.send(JSON.stringify(startMsg));
@@ -106,13 +109,22 @@ export function useRealtimeMeshWS() {
     ws.onerror = () => {
       setError('Mesh WS error');
       setState('error');
+      setReady(false);
     };
 
     ws.onclose = () => {
       try { mediaRecorderRef.current?.stop(); } catch {}
       mediaRecorderRef.current = null;
       setState('idle');
+      setReady(false);
     };
+
+    // Wait until websocket is open before resolving
+    await new Promise<void>((resolve, reject) => {
+      if (ws.readyState === WebSocket.OPEN) return resolve();
+      const timeout = setTimeout(() => reject(new Error('WebSocket not ready')), 8000);
+      ws.addEventListener('open', () => { clearTimeout(timeout); resolve(); }, { once: true } as any);
+    });
 
     return { audioEl: remoteAudioRef.current };
   }, []);
@@ -145,5 +157,5 @@ export function useRealtimeMeshWS() {
     setState('idle');
   }, []);
 
-  return { state, error, assistantText, connect, sendText, updateSession, disconnect };
+  return { state, error, assistantText, connect, sendText, updateSession, disconnect, ready };
 }
