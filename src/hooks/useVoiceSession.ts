@@ -4,6 +4,7 @@ import { voiceApi, type VoiceSessionResponse, type ProviderName } from '@/api/se
 // Contract: FE uses these fields verbatim to connect to the provider
 export type FEVoiceConnect = {
   provider: ProviderName;
+  session_flow: string;
   provider_url: string;
   token: string | null;
   token_header?: string | null;
@@ -21,14 +22,15 @@ export function useVoiceSession() {
   const start = useCallback(async (project_id: string) => {
     setLoading(true); setError(null);
     try {
-  // Choose backend API dynamically via voiceApi.startSession (api param or env)
-  const res = await voiceApi.startSession({ project_id } as any);
+      // Choose backend API dynamically via voiceApi.startSession (api param or env)
+      const res = await voiceApi.startSession({ project_id } as any);
       const fe: FEVoiceConnect = {
-  provider: (res as any).provider as ProviderName,
+        provider: (res as any).provider as ProviderName,
+        session_flow: res.session_flow,
         provider_url: res.provider_url,
         token: res.token,
-  token_header: (res as any).token_header ?? null,
-  token_scheme: (res as any).token_scheme ?? null,
+        token_header: (res as any).token_header ?? null,
+        token_scheme: (res as any).token_scheme ?? null,
         iceServers: res.iceServers,
         instructions: res.instructions,
         session_id: res.session_id,

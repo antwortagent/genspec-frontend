@@ -142,7 +142,7 @@ export const analyticsApi = {
 };
 
 // Voice API
-export type ProviderName = 'openai_realtime' | 'gemini_realtime' | 'gemini_ws';
+export type ProviderName = 'openai' | 'gemini' | 'openai_realtime' | 'gemini_realtime' | 'gemini_ws';
 export type IceServer = { urls: string | string[]; username?: string; credential?: string };
 
 export interface VoiceSessionRequest {
@@ -158,12 +158,12 @@ export interface VoiceInstructions {
 export interface VoiceSessionResponse {
   session_id: string;
   provider: ProviderName;
+  session_flow: 'https_sdp_direct' | 'websocket_mesh' | 'webrtc_https' | string;
   provider_url: string;
   token: string | null;
   // Optional auth header customization (e.g., X-Goog-Api-Key for Gemini)
   token_header?: string | null; // default: Authorization
   token_scheme?: string | null; // default: Bearer (used only with Authorization)
-  session_flow?: 'webrtc_https' | 'websocket_mesh' | string | null;
   audio?: { sampleRate: number; encoding: 'pcm16' | 'opus' | 'webm_opus' | 'mp3' } | null;
   persona?: Record<string, any> | null;
   iceServers: IceServer[] | null;

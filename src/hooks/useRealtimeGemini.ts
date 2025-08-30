@@ -59,13 +59,35 @@ export function useRealtimeGemini() {
     const offer = await pc.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: false } as any);
     await pc.setLocalDescription(offer);
 
-    if (!session.provider_url.startsWith('http')) {
-      setError('Invalid provider_url protocol. Expected https://');
+    // Validate provider_url and session_flow
+    const url = session.provider_url || '';
+    const isHttps = url.startsWith('https://');
+    const isHttp = url.startsWith('http://');
+    const isWss = url.startsWith('wss://');
+    const isWs = url.startsWith('ws://');
+    const allowInsecure = (typeof window !== 'undefined' && /^http:\/\/(localhost|127\.0\.0\.1)(:\\d+)?$/.test(window.location.origin))
+      || ((import.meta as any).env?.VITE_ALLOW_INSECURE_PROVIDER_URL === 'true');
+
+    const flow = (session as any).session_flow as string | undefined;
+    if (flow && flow.startsWith('websocket')) {
+      // Not yet supported in this client
+      if (!(isWss || (isWs && allowInsecure))) {
+        setError(`Invalid provider_url for websocket mesh. Use wss:// (or ws:// in local dev). Received: ${url}`);
+        setState('error');
+        return { remoteStream: remoteStreamRef.current };
+      }
+      setError('WebSocket realtime (websocket_mesh) not implemented in this client. Use https_sdp_direct or enable a mesh client.');
       setState('error');
       return { remoteStream: remoteStreamRef.current };
     }
 
-    try {
+    if (!(isHttps || (isHttp && allowInsecure))) {
+      setError(`Invalid provider_url protocol. Expected https://${allowInsecure ? ' or http:// (local dev)' : ''}. Received: ${url}`);
+      setState('error');
+      return { remoteStream: remoteStreamRef.current };
+    }
+
+  try {
       const providerParams: any = (session as any).instructions?.provider_parameters || {};
       const model: string | undefined = providerParams.model || providerParams.provider_model;
       if (providerParams.provider === 'openai' || (typeof model === 'string' && /gpt|o1|o3|openai/i.test(model))) {
@@ -97,7 +119,7 @@ export function useRealtimeGemini() {
       const answerSdp = await res.text();
       await pc.setRemoteDescription({ type: 'answer', sdp: answerSdp });
 
-      dc.onopen = () => {
+  dc.onopen = () => {
         try {
           // Send initial config/instructions if Gemini expects it on open
           dc.send(JSON.stringify({ type: 'session.update', session: session.instructions }));
@@ -109,6 +131,37 @@ export function useRealtimeGemini() {
     }
 
     return { remoteStream: remoteStreamRef.current };
+  }, []);
+
+  const sendText = useCallback(async (text: string) => {
+    const dc = dcRef.current;
+    if (!dc || dc.readyState !== 'open') throw new Error('Connection not ready');
+    try {
+      // Gemini Realtime: mirror OpenAI event; adjust if backend expects another shape
+      const frame = {
+        type: 'response.create',
+        response: {
+          conversation: {
+            messages: [
+              { role: 'user', content: [{ type: 'input_text', text }] }
+            ]
+          }
+        }
+      } as any;
+      dc.send(JSON.stringify(frame));
+    } catch (e: any) {
+      throw new Error(e?.message || 'Failed to send text');
+    }
+  }, []);
+
+  const updateSession = useCallback(async (partial: { system_prompt?: string; provider_parameters?: Record<string, any>; tools?: any[] }) => {
+    const dc = dcRef.current;
+    if (!dc || dc.readyState !== 'open') throw new Error('Connection not ready');
+    try {
+      dc.send(JSON.stringify({ type: 'session.update', session: partial }));
+    } catch (e: any) {
+      throw new Error(e?.message || 'Failed to update session');
+    }
   }, []);
 
   const disconnect = useCallback(() => {
@@ -123,7 +176,9 @@ export function useRealtimeGemini() {
     error,
     assistantText,
     remoteStream: remoteStreamRef.current,
-    connect,
+  connect,
+  sendText,
+  updateSession,
     disconnect,
   };
 }

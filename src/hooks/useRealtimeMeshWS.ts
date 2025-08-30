@@ -117,6 +117,26 @@ export function useRealtimeMeshWS() {
     return { audioEl: remoteAudioRef.current };
   }, []);
 
+  const sendText = useCallback(async (text: string) => {
+    const ws = wsRef.current;
+    if (!ws || ws.readyState !== WebSocket.OPEN) throw new Error('Connection not ready');
+    try {
+      ws.send(JSON.stringify({ type: 'user_text', text }));
+    } catch (e: any) {
+      throw new Error(e?.message || 'Failed to send text');
+    }
+  }, []);
+
+  const updateSession = useCallback(async (partial: { system_prompt?: string; provider_parameters?: Record<string, any>; tools?: any[] }) => {
+    const ws = wsRef.current;
+    if (!ws || ws.readyState !== WebSocket.OPEN) throw new Error('Connection not ready');
+    try {
+      ws.send(JSON.stringify({ type: 'session.update', session: partial }));
+    } catch (e: any) {
+      throw new Error(e?.message || 'Failed to update session');
+    }
+  }, []);
+
   const disconnect = useCallback(() => {
     try { mediaRecorderRef.current?.stop(); } catch {}
     mediaRecorderRef.current = null;
@@ -125,5 +145,5 @@ export function useRealtimeMeshWS() {
     setState('idle');
   }, []);
 
-  return { state, error, assistantText, connect, disconnect };
+  return { state, error, assistantText, connect, sendText, updateSession, disconnect };
 }

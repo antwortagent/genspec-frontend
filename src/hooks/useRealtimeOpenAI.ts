@@ -38,7 +38,7 @@ export function useRealtimeOpenAI() {
     inputStream.getTracks().forEach((t) => pc.addTrack(t, inputStream));
 
     // Data channel for events
-    const dc = pc.createDataChannel('oai-events');
+  const dc = pc.createDataChannel('oai-events');
     dcRef.current = dc;
     dc.onmessage = (ev) => {
       try {
@@ -67,19 +67,36 @@ export function useRealtimeOpenAI() {
     const offer = await pc.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: false } as any);
     await pc.setLocalDescription(offer);
 
-    // Use HTTPS SDP exchange by default (OpenAI-style). If provider_url is wss, we would need a WS path (not implemented here).
-    if (session.provider_url.startsWith('wss:')) {
-      setError('WebSocket realtime not implemented in this client. Use HTTPS/SDP provider_url.');
-      setState('error');
-      return { remoteStream: remoteStreamRef.current };
-    }
-    if (!session.provider_url.startsWith('http')) {
-      setError('Invalid provider_url protocol. Expected https://');
+    // Validate provider_url and session_flow
+    const url = session.provider_url || '';
+    const isHttps = url.startsWith('https://');
+    const isHttp = url.startsWith('http://');
+    const isWss = url.startsWith('wss://');
+    const isWs = url.startsWith('ws://');
+    const allowInsecure = (typeof window !== 'undefined' && /^http:\/\/(localhost|127\.0\.0\.1)(:\\d+)?$/.test(window.location.origin))
+      || ((import.meta as any).env?.VITE_ALLOW_INSECURE_PROVIDER_URL === 'true');
+
+    const flow = (session as any).session_flow as string | undefined;
+    if (flow && flow.startsWith('websocket')) {
+      // Mesh over WebSocket is not yet implemented in this client
+      if (!(isWss || (isWs && allowInsecure))) {
+        setError(`Invalid provider_url for websocket mesh. Use wss:// (or ws:// in local dev). Received: ${url}`);
+        setState('error');
+        return { remoteStream: remoteStreamRef.current };
+      }
+      setError('WebSocket realtime (websocket_mesh) not implemented in this client. Use https_sdp_direct or enable a mesh client.');
       setState('error');
       return { remoteStream: remoteStreamRef.current };
     }
 
-    try {
+    // Default: HTTPS SDP exchange (direct to provider). Allow http:// only in local dev.
+    if (!(isHttps || (isHttp && allowInsecure))) {
+      setError(`Invalid provider_url protocol. Expected https://${allowInsecure ? ' or http:// (local dev)' : ''}. Received: ${url}`);
+      setState('error');
+      return { remoteStream: remoteStreamRef.current };
+    }
+
+  try {
       const providerParams: any = (session as any).instructions?.provider_parameters || {};
       const model: string | undefined = providerParams.model || providerParams.provider_model;
       if (providerParams.provider === 'gemini' || (typeof model === 'string' && /gemini/i.test(model))) {
@@ -128,6 +145,50 @@ export function useRealtimeOpenAI() {
     return { remoteStream: remoteStreamRef.current };
   }, []);
 
+  // Send a user text message over the data channel and request a response
+  const sendText = useCallback(async (text: string) => {
+    const dc = dcRef.current;
+    if (!dc || dc.readyState !== 'open') throw new Error('Connection not ready');
+    try {
+      // OpenAI Realtime: create a new response using a user message
+      const frame = {
+        type: 'response.create',
+        response: {
+          instructions: undefined,
+          conversation: {
+            messages: [
+              {
+                role: 'user',
+                content: [
+                  { type: 'input_text', text }
+                ]
+              }
+            ]
+          }
+        }
+      } as any;
+      dc.send(JSON.stringify(frame));
+    } catch (e: any) {
+      throw new Error(e?.message || 'Failed to send text');
+    }
+  }, []);
+
+  // Patch session settings (system_prompt, provider_parameters, tools, etc.)
+  const updateSession = useCallback(async (partial: { system_prompt?: string; provider_parameters?: Record<string, any>; tools?: any[] }) => {
+    const dc = dcRef.current;
+    if (!dc || dc.readyState !== 'open') throw new Error('Connection not ready');
+    try {
+      dc.send(
+        JSON.stringify({
+          type: 'session.update',
+          session: partial,
+        })
+      );
+    } catch (e: any) {
+      throw new Error(e?.message || 'Failed to update session');
+    }
+  }, []);
+
   const disconnect = useCallback(() => {
     try { dcRef.current?.close(); } catch {}
     try { pcRef.current?.close(); } catch {}
@@ -141,6 +202,8 @@ export function useRealtimeOpenAI() {
     assistantText,
     remoteStream: remoteStreamRef.current,
     connect,
+    sendText,
+    updateSession,
     disconnect,
   };
 }
